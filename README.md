@@ -1,4 +1,4 @@
-# Snake Arcade
+# CodeFighter
 
 *Authors*:
 
@@ -16,26 +16,12 @@ Prabin Singh | [GitHub](https://github.com/prabin544)
 
 ## Overview
 
-Snake Arcade is an interactive virtual arcade with a selection of games to choose from.
-
 ---
 
 ## Features
-
-**Game One**:
-
-**Game Two**:
-
-**Game Three**:
 
 ---
 
 ## Stretch Goals
 
-* Multiplayer functionality with Socket.io
 
-* Saving player high scores to a database and displaying on screen
-
-* Additional games
-
-* More complex game
