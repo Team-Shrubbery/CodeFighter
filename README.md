@@ -12,9 +12,15 @@ Michael Ryan | [LinkedIn](https://www.linkedin.com/in/michaelanthonyryan/) | [Gi
 
 Prabin Singh | [GitHub](https://github.com/prabin544)
 
+## Project Organization
+
+[Code Fighters Trello Board](https://trello.com/b/pkyCF5nn/python-arcade)
+
 ---
 
 ## Overview
+
+CodeFighter is a "best 2-out-of-3" style fighting game where opponents will battle in a 3-round fight. Our vision is to create an entertaining multiplayer experience to allow users to battle online. It solves the pain point of ever-present boredom, and what better way than to play a game with someone else! Our product provides an opportunity for social interaction in a socially-distant world.
 
 ---
 
@@ -22,6 +28,16 @@ Prabin Singh | [GitHub](https://github.com/prabin544)
 
 ---
 
-## Stretch Goals
+## Wireframes
 
+![Code Fighter Wireframe](CodeFighterWireframe.png)
+
+---
+
+## Domain Modeling
+
+![Code Fighter Domain Model](CodeFighterDomainModel.png)
+
+
+---
 
