@@ -15,6 +15,7 @@ class Game:
     def new(self):
         self.playing = True
         self.all_sprites = pygame.sprite.LayeredUpdates()
+        self.player = Player(self, 1, 2)
         
     def events(self):
         for event in pygame.event.get():
@@ -29,13 +30,14 @@ class Game:
         self.screen.fill(BLACK)
         self.all_sprites.draw(self.screen)
         self.clock.tick(FPS)
-        pygame.display.update
+        pygame.display.update()
 
     def main(self):
         while self.playing:
           self.events()
           self.update()
           self.draw()
+        self.running = False
 
 g = Game()
 g.new()
