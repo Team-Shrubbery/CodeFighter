@@ -4,6 +4,7 @@ from config import *
 from game_over import *
 from intro import *
 from player import *
+from sprite_sheet import *
 
 class Game:
     def __init__(self):
@@ -11,6 +12,7 @@ class Game:
         self.screen = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
         self.clock = pygame.time.Clock()
         self.running = True
+        self.alucard_sprite_sheet = Spritesheet('../img/alucardfinal.png')
 
     def new(self):
         self.playing = True
