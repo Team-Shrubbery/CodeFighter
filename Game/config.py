@@ -1,0 +1,6 @@
+WIN_WIDTH = 800
+WIN_HEIGHT = 600
+
+BLACK = (0,0,0)
+
+FPS = 60
