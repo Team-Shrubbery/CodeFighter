@@ -5,6 +5,7 @@ from game_over import *
 from intro import *
 from player import *
 from sprite_sheet import *
+from player2 import *
 
 class Game:
     def __init__(self):
@@ -13,11 +14,13 @@ class Game:
         self.clock = pygame.time.Clock()
         self.running = True
         self.alucard_sprite_sheet = Spritesheet('../img/alucardfinal.png')
+        self.background = pygame.image.load('../img/battleback1.png')
 
     def new(self):
         self.playing = True
         self.all_sprites = pygame.sprite.LayeredUpdates()
-        self.player = Player(self, 1, 2)
+        self.player = Player(self, 1, 260)
+        self.player2 = Player2(self, 600, 260)
         
     def events(self):
         for event in pygame.event.get():
@@ -30,6 +33,7 @@ class Game:
 
     def draw(self):
         self.screen.fill(BLACK)
+        self.screen.blit(self.background, (0, 0))
         self.all_sprites.draw(self.screen)
         self.clock.tick(FPS)
         pygame.display.update()
