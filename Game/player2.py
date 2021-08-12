@@ -2,7 +2,7 @@ import pygame
 from config import *
 from sprite_sheet import *
 
-class Player(pygame.sprite.Sprite):
+class Player2(pygame.sprite.Sprite):
     def __init__(self, game, x, y):
       self.game = game
       self._layer = PLAYER_LAYER
@@ -26,9 +26,9 @@ class Player(pygame.sprite.Sprite):
 
     def movement(self):
       keys = pygame.key.get_pressed()
-      if keys[pygame.K_LEFT]:
+      if keys[pygame.K_a]:
         self.x -= self.speed
-      if keys[pygame.K_RIGHT]:
+      if keys[pygame.K_d]:
         self.x += self.speed
       self.rect = (self.x, self.y, self.width, self.height)
 
