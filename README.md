@@ -41,3 +41,16 @@ CodeFighter is a "best 2-out-of-3" style fighting game where opponents will batt
 
 ---
 
+## Credits
+
+[Pygame Fighter Tutorial](https://coderslegacy.com/python/pygame-rpg-game-tutorial/)
+
+---
+
+## Keyboard
+
+- Left and Right arrow keys to move
+- Spacebar to jump
+- Return to attack
+
+---
