@@ -18,7 +18,7 @@ class Player2(pygame.sprite.Sprite):
 
         # --------------- Position and Direction -------------
         self.vx = 0
-        self.pos = vec((100, 240))
+        self.pos = vec((580, 240))
         self.vel = vec(0, 0)
         self.acc = vec(0, 0)
 
@@ -70,7 +70,7 @@ class Player2(pygame.sprite.Sprite):
         if pressed_keys[K_d]:
             self.acc.x = ACC
             self.direction = "RIGHT"
-        if pressed_keys[K_e]:
+        if pressed_keys[K_w]:
             self.jump()
         if pressed_keys[K_f]:
             self.attack()
