@@ -7,7 +7,7 @@ from config import *
 class Player2(pygame.sprite.Sprite):
     def __init__(self, game):
         self.game = game
-        self.image = self.game.alucard_sprite_sheet.get_sprite(5, 179, 145, 125)
+        self.image = self.game.alucard_sprite_sheet.get_sprite(38, 179, 145, 125)
         self.image.set_colorkey(MAGENTA)
         self.rect = self.image.get_rect()
         self.groups = self.game.all_sprites, self.game.player2
@@ -18,7 +18,7 @@ class Player2(pygame.sprite.Sprite):
 
         # --------------- Position and Direction -------------
         self.vx = 0
-        self.pos = vec((340, 240))
+        self.pos = vec((100, 240))
         self.vel = vec(0, 0)
         self.acc = vec(0, 0)
 
