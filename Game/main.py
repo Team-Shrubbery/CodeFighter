@@ -3,6 +3,7 @@ from pygame.locals import *
 from config import *
 from data.player import *
 from data.ground import *
+from data.player2 import Player2
 
 # ------------------------ Main Game Class
 class Game:
@@ -23,8 +24,23 @@ class Game:
         self.all_sprites = pygame.sprite.LayeredUpdates()
         self.ground_group = pygame.sprite.LayeredUpdates()
         self.player = pygame.sprite.LayeredUpdates()
+        self.player2 = pygame.sprite.LayeredUpdates()
         self.ground = Ground(self)
         self.player = Player(self)
+        self.player2 = Player2(self)
+
+    # -------------------------- handles different game events, can look up events in pygame docs ------------
+    def events(self):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                self.playing = False
+            # For events that occur upon clicking the mouse (left click)
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                pass
+
+            # Event handling for a range of different key presses
+            if event.type == pygame.KEYDOWN:
+                pass
 
     # ------------------------ Update every sprite in the game/added to all_sprites group -------------------
     def update(self):
@@ -45,19 +61,6 @@ class Game:
             self.update()
             self.draw()
         self.playing = False
-
-    # -------------------------- handles different game events, can look up events in pygame docs ------------
-    def events(self):
-        for event in pygame.event.get():
-            if event.type == QUIT:
-                self.playing = False
-            # For events that occur upon clicking the mouse (left click)
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                pass
-
-            # Event handling for a range of different key presses
-            if event.type == pygame.KEYDOWN:
-                pass
 
 
 # ------ starting the game --------

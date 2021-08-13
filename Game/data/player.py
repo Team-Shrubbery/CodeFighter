@@ -12,6 +12,7 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.groups = self.game.all_sprites, self.game.player
         pygame.sprite.Sprite.__init__(self, self.groups)
+
         self.width = 145
         self.height = 125
 
