@@ -145,7 +145,7 @@ class Player(pygame.sprite.Sprite):
             self.image = self.attack_ani_L[math.floor(self.attack_frame)]
             self.image.set_colorkey(MAGENTA)
             self.image = pygame.transform.flip(self.image, True, False)
-        self.attack_frame += 0.1
+        self.attack_frame += 0.3
 
     # def player_hit(self):
     #     hits = pygame.sprite.spritecollide(self, self.player, False)
