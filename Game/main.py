@@ -5,6 +5,13 @@ from data.player import *
 from data.ground import *
 from data.player2 import Player2
 
+import socketio
+
+sio = socketio.Client()
+
+# from sockets2 import SocketConnection
+
+
 # ------------------------ Main Game Class
 class Game:
     def __init__(self):
@@ -18,6 +25,8 @@ class Game:
         self.background = pygame.image.load("resources/img/Battleback1.png")
         self.ground_image = pygame.image.load("resources/img/Ground.png")
         self.alucard_sprite_sheet = Spritesheet("resources/img/alucardfinal.png")
+
+        self.sockets = SocketConnection()
 
     # ----------------------- Putting sprites into groups and instantiatiating objects
     def new(self):
@@ -63,11 +72,34 @@ class Game:
         self.playing = False
 
 
+class SocketConnection(socketio.ClientNamespace):
+    def on_connect(self):
+        print("Connected to Server")
+        self.emit("initialize_game", "player has connected", namespace="/game")
+
+    # def on_move(self, sid, data):
+    #     self.emit("from on move listener: ", data)
+
+    def on_disconnect(self):
+        print("Client has Disconnected")
+
+    def move(self, the_move):
+        print("the_move: ", the_move)
+        self.emit("initialize_game", "player has connected", namespace="/game")
+
+
+sio.register_namespace(SocketConnection("/game"))
+sio.connect("http://localhost:8000")
+
+
 # ------ starting the game --------
+print("will it get to here")
 g = Game()
 g.new()
+
 while g.playing is True:
     g.main()
 
 pygame.quit()
 sys.exit()
+sio.wait()
