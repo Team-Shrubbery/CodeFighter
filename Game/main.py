@@ -33,9 +33,9 @@ class Game:
         self.player = pygame.sprite.LayeredUpdates()
         self.player2 = pygame.sprite.LayeredUpdates()
         self.ground = Ground(self)
+        self.sockets = SocketConnection()
         self.player = Player(self)
         self.player2 = Player2(self)
-        self.sockets = SocketConnection()
 
     # -------------------------- handles different game events, can look up events in pygame docs ------------
     def events(self):

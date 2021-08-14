@@ -10,22 +10,30 @@ sio = socketio.Client()
 
 
 class SocketConnection(socketio.ClientNamespace):
-    def on_connect(self):
-        print("Player 1 Connected")
-        sio.emit("message", "Player 1")
+    # def __init__(self):
+    #     pass
 
-    # def on_move(self, sid, data):
-    #     self.emit("from on move listener: ", data)
-    def on_move(data):
-        print("Player 1 Received Move: ", data)
+    def on_connect(self):
+        print("We Connected")
+
+    def on_position(self, data):
+        print("We are: ", data)
+        # self.player = data
+        # print("self.player: ", self.player)
+
+    # def on_move(data):
+    #     print("Player 1 Received Move: ", data)
+
+    def on_receive(self, data):
+        print("We got this from other player: ", data)
 
     @staticmethod
     def sendmove(data):
-        print("This is what were trying to send", data)
+        print("Send Move to Server: ", data)
         sio.emit("move", data)
 
     def on_disconnect(self):
-        print("Player 1 Disconnected from server")
+        print("We Disconnected from server")
 
 
 sio.register_namespace(SocketConnection("/"))
