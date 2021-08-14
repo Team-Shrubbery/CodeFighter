@@ -5,11 +5,11 @@ from data.player import *
 from data.ground import *
 from data.player2 import Player2
 
-import socketio
+# import socketio
 
-sio = socketio.Client()
+# sio = socketio.Client()
 
-# from sockets2 import SocketConnection
+from sockets1 import SocketConnection
 
 
 # ------------------------ Main Game Class
@@ -26,8 +26,6 @@ class Game:
         self.ground_image = pygame.image.load("resources/img/Ground.png")
         self.alucard_sprite_sheet = Spritesheet("resources/img/alucardfinal.png")
 
-        self.sockets = SocketConnection()
-
     # ----------------------- Putting sprites into groups and instantiatiating objects
     def new(self):
         self.all_sprites = pygame.sprite.LayeredUpdates()
@@ -37,6 +35,7 @@ class Game:
         self.ground = Ground(self)
         self.player = Player(self)
         self.player2 = Player2(self)
+        self.sockets = SocketConnection()
 
     # -------------------------- handles different game events, can look up events in pygame docs ------------
     def events(self):
@@ -69,37 +68,23 @@ class Game:
             self.events()
             self.update()
             self.draw()
+            # a_move = random.choice(["2LEFT", "2RIGHT", "2UP", "2DOWN"])
+            # sio.emit(
+            #     "move",
+            #     a_move,
+            # )
+            # sleep(2)
         self.playing = False
 
 
-class SocketConnection(socketio.ClientNamespace):
-    def on_connect(self):
-        print("Connected to Server")
-        self.emit("initialize_game", "player has connected", namespace="/game")
-
-    # def on_move(self, sid, data):
-    #     self.emit("from on move listener: ", data)
-
-    def on_disconnect(self):
-        print("Client has Disconnected")
-
-    def move(self, the_move):
-        print("the_move: ", the_move)
-        self.emit("initialize_game", "player has connected", namespace="/game")
-
-
-sio.register_namespace(SocketConnection("/game"))
-sio.connect("http://localhost:8000")
-
-
 # ------ starting the game --------
-print("will it get to here")
+
 g = Game()
 g.new()
+
 
 while g.playing is True:
     g.main()
 
 pygame.quit()
 sys.exit()
-sio.wait()

@@ -1,25 +1,33 @@
 import socketio
 
-# sio = socketio.Client
+sio = socketio.Client()
+
+# listeners will have 3 parameters
+# self, sid, data
+
+# emiters will have 2 parameters
+# self, data
 
 
-class SocketConnection:
-    sio = socketio.Client
-    sio.connect("http://localhost:8000")
+class SocketConnection(socketio.ClientNamespace):
+    def on_connect(self):
+        print("Player 1 Connected")
+        sio.emit("message", "Player 1")
 
-    def __init__(self):
-        pass
+    # def on_move(self, sid, data):
+    #     self.emit("from on move listener: ", data)
+    def on_move(data):
+        print("Player 1 Received Move: ", data)
 
-    @sio.event(namespace="/game")
-    def connect(self):
-        print("connection established")
-        nonlocal sio
-        sio.emit("from client", "will this work?")
+    @staticmethod
+    def sendmove(data):
+        print("This is what were trying to send", data)
+        sio.emit("move", data)
 
-    @sio.event(namespace="/game")
-    def move(self, data):
-        sio.emit("move", "move was triggered")
+    def on_disconnect(self):
+        print("Player 1 Disconnected from server")
 
-    @sio.event(namespace="/game")
-    def disconnect(self):
-        print("disconnected from server")
+
+sio.register_namespace(SocketConnection("/"))
+sio.connect("http://localhost:8000")
+# sio.wait()
