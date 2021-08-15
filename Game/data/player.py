@@ -1,6 +1,7 @@
 import pygame, math
 from pygame.locals import *
 from data.sprite_sheet import *
+from data.player2 import *
 from config import *
 
 # -------------- Player Class ------------------
@@ -14,6 +15,8 @@ class Player(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self, self.groups)
         self.width = 145
         self.height = 125
+        self.current_health = CURRENT_HEALTH
+        self.max_health = MAX_HEALTH
 
 # --------------- Position and Direction -------------
         self.vx = 0
@@ -91,6 +94,7 @@ class Player(pygame.sprite.Sprite):
         self.move()
         self.gravity_check()
         self.animate()
+        # self.basic_health()
 
     def animate(self):
         if self.move_frame > 3:
@@ -147,13 +151,18 @@ class Player(pygame.sprite.Sprite):
             self.image = pygame.transform.flip(self.image, True, False)
         self.attack_frame += 0.3
 
-    # def player_hit(self):
-    #     hits = pygame.sprite.spritecollide(self, self.player, False)
-    #     if self.cooldown == False:
-    #         self.cooldown = True 
-    #         pygame.time.set_timer(self.hit_cooldown, 1000) 
+    # def get_damage(self, amount):
+    #     if self.current_health > 0:
+    #         self.current_health -= amount
+    #     if self.current_health <= 0:
 
-    #         pygame.display.update()
+    def player_hit(self):
+        hits = pygame.sprite.spritecollide(self, self.player2, False)
+        if self.cooldown == False:
+            self.cooldown = True 
+            pygame.time.set_timer(self.hit_cooldown, 1000) 
+
+            pygame.display.update()
 
     def jump(self):
         self.rect.x += 1
@@ -164,3 +173,12 @@ class Player(pygame.sprite.Sprite):
         if hits and not self.jumping:
             self.jumping = True
             self.vel.y = -12
+
+    # def basic_health(self):
+    #     pygame.draw.line(self.image, GREEN, (0,30),(0, 30) , self.current_health)
+    #     if self.current_health < self.max_health / 2:
+    #         pygame.draw.line(self.image, YELLOW, (0,30),(0, 30) , self.current_health)
+
+    #     if self.current_health < self.max_health / 4:
+    #         pygame.draw.line(self.image, RED, (0,30),(0, 30) , self.current_health)
+
