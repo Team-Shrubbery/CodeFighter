@@ -35,6 +35,7 @@ class Game:
             self.screen.fill(BLACK)
             self.screen.blit(self.background, (0, 0))
             self.all_sprites.draw(self.screen)
+            self.player.basic_health()
             self.clock.tick(FPS)
             pygame.display.update()
 
@@ -57,7 +58,10 @@ class Game:
             
                   # Event handling for a range of different key presses    
                   if event.type == pygame.KEYDOWN:
-                        pass
+                        # for testing health bar
+                        if event.key == pygame.K_DOWN:
+                              self.player.get_damage(50)
+                        # pass
 
 # ------ starting the game --------
 g = Game()
