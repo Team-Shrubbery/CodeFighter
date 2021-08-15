@@ -1,5 +1,6 @@
 import pygame, sys, random
 from pygame.locals import *
+from pygame.sprite import Sprite
 from config import *
 from data.player import *
 from data.player2 import *
@@ -22,6 +23,7 @@ class Game:
             self.ground_image = pygame.image.load('resources/img/Ground.png')
             self.alucard_sprite_sheet = Spritesheet('resources/img/alucardfinal.png')
             self.intro_background = pygame.image.load('resources/img/wizardtower.png')
+            self.fixer_sprite_sheet = Spritesheet('resources/img/thefixer.png')
 
       def intro_screen(self):
             intro = True
@@ -56,8 +58,8 @@ class Game:
             self.all_sprites = pygame.sprite.LayeredUpdates()
             self.ground_group = pygame.sprite.LayeredUpdates()
             # self.health_bar = pygame.sprite.LayeredUpdates()
-            self.player = pygame.sprite.LayeredUpdates()
-            self.player2 = pygame.sprite.LayeredUpdates()
+            self.player1_group = pygame.sprite.LayeredUpdates()
+            self.player2_group = pygame.sprite.LayeredUpdates()
             # self.healthbar = Healthbar(self)
             self.ground = Ground(self)
             self.player = Player(self)

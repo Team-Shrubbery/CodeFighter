@@ -11,7 +11,7 @@ class Player(pygame.sprite.Sprite):
         self.image = self.game.alucard_sprite_sheet.get_sprite(38, 179, 145, 125)
         self.image.set_colorkey(MAGENTA)
         self.rect = self.image.get_rect()
-        self.groups = self.game.all_sprites, self.game.player
+        self.groups = self.game.all_sprites, self.game.player1_group
         pygame.sprite.Sprite.__init__(self, self.groups)
         self.width = 145
         self.height = 125
@@ -94,7 +94,11 @@ class Player(pygame.sprite.Sprite):
         self.move()
         self.gravity_check()
         self.animate()
-        # self.basic_health()
+        # self.rect.x += self.vels
+        self.collide_player()
+        self.get_hit()
+        if self.attacking == True:
+            self.attack()
 
     def animate(self):
         if self.move_frame > 3:
@@ -120,6 +124,10 @@ class Player(pygame.sprite.Sprite):
                 self.image = pygame.transform.flip(self.image, True, False)
 
             self.move_frame += 0.1
+        
+        if self.running == False:
+            self.image = self.game.alucard_sprite_sheet.get_sprite(38, 179, 145, 125)
+            self.image.set_colorkey(MAGENTA)
 
         if abs(self.vel.x) < 0.2 and self.move_frame != 0:
             self.move_frame = 0
@@ -151,18 +159,43 @@ class Player(pygame.sprite.Sprite):
             self.image = pygame.transform.flip(self.image, True, False)
         self.attack_frame += 0.3
 
-    # def get_damage(self, amount):
-    #     if self.current_health > 0:
-    #         self.current_health -= amount
-    #     if self.current_health <= 0:
+    # def player_hit(self):
+    #     hits = pygame.sprite.spritecollide(self, self.game.player2_group, False)
+    #     if self.cooldown == False:
+    #         self.cooldown = True 
+    #         pygame.time.set_timer(self.hit_cooldown, 1000) 
 
-    def player_hit(self):
-        hits = pygame.sprite.spritecollide(self, self.player2, False)
-        if self.cooldown == False:
-            self.cooldown = True 
-            pygame.time.set_timer(self.hit_cooldown, 1000) 
+    #         pygame.display.update()
 
-            pygame.display.update()
+    def get_hit(self):
+        hits = pygame.sprite.spritecollide(self, self.game.player2_group, False)
+        # if hits and self.game.player2.attacking == True:
+        #     self.kill()
+        #     print("enemy hit")
+
+        if hits and self.attacking == False:
+            print("player1 hit")
+        
+        if hits and self.attacking == True:
+            print("player2 hit")
+        
+        # elif hits and self.game.player2.attacking == False:
+        #     self.player_hit()
+        #     print("you got hit")
+
+    def collide_player(self):
+        hits = pygame.sprite.spritecollide(self, self.game.player2_group, False)
+        if self.vel.x > 0:
+            if hits:
+                if self.pos.x < self.rect.right:
+                    self.pos.x = self.rect.left + 1
+                    self.vel.x = 0
+
+        if self.vel.x < 0:
+            if hits:
+                if self.pos.x < self.rect.left:
+                    self.pos.x = self.rect.right + 1
+                    self.vel.x = 0
 
     def jump(self):
         self.rect.x += 1
@@ -173,12 +206,3 @@ class Player(pygame.sprite.Sprite):
         if hits and not self.jumping:
             self.jumping = True
             self.vel.y = -12
-
-    # def basic_health(self):
-    #     pygame.draw.line(self.image, GREEN, (0,30),(0, 30) , self.current_health)
-    #     if self.current_health < self.max_health / 2:
-    #         pygame.draw.line(self.image, YELLOW, (0,30),(0, 30) , self.current_health)
-
-    #     if self.current_health < self.max_health / 4:
-    #         pygame.draw.line(self.image, RED, (0,30),(0, 30) , self.current_health)
-

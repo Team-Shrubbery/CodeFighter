@@ -8,10 +8,10 @@ from config import *
 class Player2(pygame.sprite.Sprite):
     def __init__(self, game):
         self.game = game
-        self.image = self.game.alucard_sprite_sheet.get_sprite(38, 179, 145, 125)
-        self.image.set_colorkey(MAGENTA)
+        self.image = self.game.fixer_sprite_sheet.get_sprite(0, 0, 130, 125)
+        self.image.set_colorkey(THIS_COLOR)
         self.rect = self.image.get_rect()
-        self.groups = self.game.all_sprites, self.game.player2
+        self.groups = self.game.all_sprites, self.game.player2_group
         pygame.sprite.Sprite.__init__(self, self.groups)
         self.width = 145
         self.height = 125
@@ -27,24 +27,24 @@ class Player2(pygame.sprite.Sprite):
         self.jumping = False
         self.running = False
         self.move_frame = 0
-        self.run_ani_R = [self.game.alucard_sprite_sheet.get_sprite(268, 795, self.width, self.height), self.game.alucard_sprite_sheet.get_sprite(75, 793, self.width, self.height),
-        self.game.alucard_sprite_sheet.get_sprite(54, 927, self.width, self.height)]
+        self.run_ani_R = [self.game.fixer_sprite_sheet.get_sprite(536, 137, 85, 124), self.game.fixer_sprite_sheet.get_sprite(513, 261, 97, 125),
+        self.game.fixer_sprite_sheet.get_sprite(448, 134, 89, 124)]
 
-        self.run_ani_L = [self.game.alucard_sprite_sheet.get_sprite(268, 795, self.width, self.height), self.game.alucard_sprite_sheet.get_sprite(75, 793, self.width, self.height),
-        self.game.alucard_sprite_sheet.get_sprite(54, 927, self.width, self.height)]
+        self.run_ani_L = [self.game.fixer_sprite_sheet.get_sprite(536, 137, 85, 124), self.game.fixer_sprite_sheet.get_sprite(513, 261, 97, 125),
+        self.game.fixer_sprite_sheet.get_sprite(448, 134, 89, 124)]
 
 
 # ----------- Combat ---------------------
         self.attacking = False
         self.cooldown = False
         self.attack_frame = 0
-        self.attack_ani_R = [self.game.alucard_sprite_sheet.get_sprite(30, 3866, self.width, self.height - 25),
-                            self.game.alucard_sprite_sheet.get_sprite(170, 3866, self.width, self.height - 25),
-                            self.game.alucard_sprite_sheet.get_sprite(314, 3860, self.width + 55, self.height),]
+        self.attack_ani_R = [self.game.fixer_sprite_sheet.get_sprite(30, 3866, self.width, self.height - 25),
+                            self.game.fixer_sprite_sheet.get_sprite(170, 3866, self.width, self.height - 25),
+                            self.game.fixer_sprite_sheet.get_sprite(314, 3860, self.width + 55, self.height),]
  
-        self.attack_ani_L = [self.game.alucard_sprite_sheet.get_sprite(30, 3866, self.width, self.height - 25),
-                            self.game.alucard_sprite_sheet.get_sprite(170, 3866, self.width, self.height - 25),
-                            self.game.alucard_sprite_sheet.get_sprite(314, 3860, self.width + 55, self.height),]
+        self.attack_ani_L = [self.game.fixer_sprite_sheet.get_sprite(30, 3866, self.width, self.height - 25),
+                            self.game.fixer_sprite_sheet.get_sprite(170, 3866, self.width, self.height - 25),
+                            self.game.fixer_sprite_sheet.get_sprite(314, 3860, self.width + 55, self.height),]
 
     def move(self):
         self.acc = vec(0, 0.5)
@@ -92,6 +92,7 @@ class Player2(pygame.sprite.Sprite):
         self.move()
         self.gravity_check()
         self.animate()
+        self.collide_player()
 
     def animate(self):
         if self.move_frame > 3:
@@ -101,19 +102,19 @@ class Player2(pygame.sprite.Sprite):
         if self.jumping == False and self.running == True:
             if self.vel.x > 0:
               if self.direction == "RIGHT" and self.running is False:
-                self.image = self.game.alucard_sprite_sheet.get_sprite(38, 179, 145, 125)
-                self.image.set_colorkey(MAGENTA)
+                self.image = self.game.fixer_sprite_sheet.get_spritee(38, 179, 145, 125)
+                self.image.set_colorkey(THIS_COLOR)
               else:
                 self.image = self.run_ani_R[math.floor(self.move_frame)]
-                self.image.set_colorkey(MAGENTA)
+                self.image.set_colorkey(THIS_COLOR)
             elif self.vel.x < 0:
               if self.direction == "LEFT" and self.running is False:
-                self.image = self.game.alucard_sprite_sheet.get_sprite(38, 179, 145, 125)
+                self.image = self.game.fixer_sprite_sheet.get_sprite(38, 179, 145, 125)
                 self.image = pygame.transform.flip(self.image, True, False)
-                self.image.set_colorkey(MAGENTA)
+                self.image.set_colorkey(THIS_COLOR)
               else:
                 self.image = self.run_ani_L[math.floor(self.move_frame)]
-                self.image.set_colorkey(MAGENTA)
+                self.image.set_colorkey(THIS_COLOR)
                 self.image = pygame.transform.flip(self.image, True, False)
 
             self.move_frame += 0.1
@@ -148,13 +149,19 @@ class Player2(pygame.sprite.Sprite):
             self.image = pygame.transform.flip(self.image, True, False)
         self.attack_frame += 0.3
 
-    # def player_hit(self):
-    #     hits = pygame.sprite.spritecollide(self, self.player, False)
-    #     if self.cooldown == False:
-    #         self.cooldown = True 
-    #         pygame.time.set_timer(self.hit_cooldown, 1000) 
+    def player_hit(self):
+        hits = pygame.sprite.spritecollide(self, self.player2_group, False)
 
-    #         pygame.display.update()
+        if hits and self.game.player.attacking == True:
+            self.kill()
+            print("enemy hit")
+        
+        elif hits and self.game.player.attacking == False:
+            self.game.player.player_hit()
+            print("you got hit")
+
+            pygame.display.update()
+
 
     def jump(self):
         self.rect.x += 1
@@ -165,3 +172,17 @@ class Player2(pygame.sprite.Sprite):
         if hits and not self.jumping:
             self.jumping = True
             self.vel.y = -12
+
+    def collide_player(self):
+        hits = pygame.sprite.spritecollide(self, self.game.player1_group, False)
+        if self.vel.x > 0:
+            if hits:
+                if self.pos.x < self.rect.right:
+                    self.pos.x = self.rect.left + 1
+                    self.vel.x = 0
+
+        if self.vel.x < 0:
+            if hits:
+                if self.pos.x < self.rect.left:
+                    self.pos.x = self.rect.right + 1
+                    self.vel.x = 0
