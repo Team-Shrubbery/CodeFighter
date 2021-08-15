@@ -38,8 +38,8 @@ class Game:
         self.player2 = Player2(self)
         self.sockets = SocketConnection()
         self.sockets.start_connection()
-        print("this is opponents move!!!!!", self.sockets.opponent_move)
-        print("this is position!!!!!", self.sockets.position)
+        # print("this is opponents move!!!!!", self.sockets.opponent_move)
+        # print("this is position!!!!!", self.sockets.position)
 
     # -------------------------- handles different game events, can look up events in pygame docs ------------
     def events(self):

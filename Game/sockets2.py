@@ -10,16 +10,22 @@ class SocketConnection:
 
     sio = socketio.Client()
 
-    def __init__(self, opponent_move="", position=""):
-        self.opponent_move = opponent_move
-        self.position = position
+    def __init__(self):
+        pass
 
     @sio.event
     def connect():
         print("We Connected")
 
-    # def set_position(self, position):
-    #     self.position = position
+    def get_position(self):
+        return position
+
+    def get_opponent_move(self):
+        global opponent_move
+        try:
+            return opponent_move
+        except NameError:
+            return None
 
     @sio.event
     def position(data):
