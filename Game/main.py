@@ -4,12 +4,13 @@ from config import *
 from data.player import *
 from data.ground import *
 from data.player2 import Player2
+import socketio
 
 # import socketio
 
 # sio = socketio.Client()
 
-from sockets1 import SocketConnection
+from sockets2 import SocketConnection
 
 
 # ------------------------ Main Game Class
@@ -33,9 +34,12 @@ class Game:
         self.player = pygame.sprite.LayeredUpdates()
         self.player2 = pygame.sprite.LayeredUpdates()
         self.ground = Ground(self)
-        self.sockets = SocketConnection()
         self.player = Player(self)
         self.player2 = Player2(self)
+        self.sockets = SocketConnection()
+        self.sockets.start_connection()
+        print("this is opponents move!!!!!", self.sockets.opponent_move)
+        print("this is position!!!!!", self.sockets.position)
 
     # -------------------------- handles different game events, can look up events in pygame docs ------------
     def events(self):
