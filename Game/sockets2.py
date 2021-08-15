@@ -17,15 +17,16 @@ class SocketConnection:
     def connect():
         print("We Connected")
 
-    def get_position(self):
-        return position
-
     def get_opponent_move(self):
         global opponent_move
         try:
             return opponent_move
         except NameError:
             return None
+
+    def reset_opponent_move(self):
+        global opponent_move
+        opponent_move = None
 
     @sio.event
     def position(data):

@@ -62,18 +62,23 @@ class Player2(pygame.sprite.Sprite):
         else:
             self.running = False
 
+        opponent_move = self.game.sockets.get_opponent_move()
         # --------- keyboard input ----------------
-        pressed_keys = pygame.key.get_pressed()
-        if pressed_keys[K_a]:
+        # pressed_keys = pygame.key.get_pressed()
+        if opponent_move == "left":
             self.acc.x = -ACC
             self.direction = "LEFT"
-        if pressed_keys[K_d]:
+            self.game.sockets.reset_opponent_move()
+        if opponent_move == "right":
             self.acc.x = ACC
             self.direction = "RIGHT"
-        if pressed_keys[K_w]:
+            self.game.sockets.reset_opponent_move()
+        if opponent_move == "jump":
             self.jump()
-        if pressed_keys[K_f]:
+            self.game.sockets.reset_opponent_move()
+        if opponent_move == "attack":
             self.attack()
+            self.game.sockets.reset_opponent_move()
 
         self.acc.x += self.vel.x * FRIC
         self.vel += self.acc
