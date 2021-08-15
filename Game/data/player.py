@@ -17,6 +17,13 @@ class Player(pygame.sprite.Sprite):
         self.width = 145
         self.height = 125
 
+        # ------------- Health & Health Bar ----------------
+
+        self.cur_health = CUR_HEALTH
+        self.max_health = MAX_HEALTH
+        self.healthbar_length = 300  # pixels
+        self.health_ratio = self.max_health / self.healthbar_length
+
         # --------------- Position and Direction -------------
         self.vx = 0
         self.pos = vec((self.game.sockets.get_player1_x(), 240))
@@ -103,6 +110,7 @@ class Player(pygame.sprite.Sprite):
 
     # ---------- method calls -----------
     def update(self):
+        self.basic_health()
         self.move()
         self.gravity_check()
         self.animate()
@@ -178,3 +186,27 @@ class Player(pygame.sprite.Sprite):
         if hits and not self.jumping:
             self.jumping = True
             self.vel.y = -12
+
+    # -------- HEALTH & DAMAGE --------
+
+    def get_damage(self, amount):  # subtracts health
+        if self.cur_health > 0:
+            self.cur_health -= amount
+        if self.cur_health <= 0:
+            self.cur_health = 0
+
+    def get_health(self, amount):  # adds health
+        if self.cur_health > self.max_health:
+            self.cur_health += amount
+        if self.cur_health >= self.max_health:
+            self.cur_health = self.max_health
+
+    def basic_health(self):  # draws the health bar inside a box
+        if self.cur_health <= (MAX_HEALTH / 2):
+            if self.cur_health <= (MAX_HEALTH / 4):
+                pygame.draw.rect(self.game.screen, RED, (10, 10, self.cur_health / self.health_ratio, 25))
+            else:
+                pygame.draw.rect(self.game.screen, YELLOW, (10, 10, self.cur_health / self.health_ratio, 25))
+        else:
+            pygame.draw.rect(self.game.screen, GREEN, (10, 10, self.cur_health / self.health_ratio, 25))
+        pygame.draw.rect(self.game.screen, WHITE, (10, 10, self.healthbar_length, 25), 2)
