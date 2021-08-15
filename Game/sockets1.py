@@ -1,41 +1,54 @@
 import socketio
 
-sio = socketio.Client()
 
-# listeners will have 3 parameters
-# self, sid, data
+class SocketConnection:
 
-# emiters will have 2 parameters
-# self, data
+    global sio
+    global opponent_move
+    global position
 
+    sio = socketio.Client()
 
-class SocketConnection(socketio.ClientNamespace):
-    # def __init__(self):
-    #     pass
+    def __init__(self):
+        pass
 
-    def on_connect(self):
+    @sio.event
+    def connect():
         print("We Connected")
 
-    def on_position(self, data):
+    def get_opponent_move(self):
+        global opponent_move
+        try:
+            return opponent_move
+        except NameError:
+            return None
+
+    def reset_opponent_move(self):
+        global opponent_move
+        opponent_move = None
+
+    @sio.event
+    def position(data):
         print("We are: ", data)
-        # self.player = data
-        # print("self.player: ", self.player)
+        global position
+        position = data
 
-    # def on_move(data):
-    #     print("Player 1 Received Move: ", data)
-
-    def on_receive(self, data):
-        print("We got this from other player: ", data)
+    @sio.event
+    def receive(data):
+        # print("We got this from other player: ", data)
+        global opponent_move
+        opponent_move = data
 
     @staticmethod
     def sendmove(data):
-        print("Send Move to Server: ", data)
+        # print("Send Move to Server: ", data)
         sio.emit("move", data)
 
-    def on_disconnect(self):
+    @sio.event
+    def disconnect():
         print("We Disconnected from server")
 
-
-sio.register_namespace(SocketConnection("/"))
-sio.connect("http://localhost:8000")
-# sio.wait()
+    @staticmethod
+    def start_connection():
+        print("we got to start connection")
+        sio.connect("http://localhost:8000")

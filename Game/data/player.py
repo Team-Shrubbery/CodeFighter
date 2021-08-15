@@ -66,8 +66,6 @@ class Player(pygame.sprite.Sprite):
         else:
             self.running = False
 
-        opponent_move = self.game.sockets.get_opponent_move()
-        print("get_opponent_move: ", opponent_move)
         # --------- keyboard input ----------------
         pressed_keys = pygame.key.get_pressed()
         if pressed_keys[K_LEFT]:
