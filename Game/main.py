@@ -14,7 +14,7 @@ class Game:
             self.playing = True
 
 # ----------------------- Sprite Sheets and image files to load ---------------------------
-            self.background = pygame.image.load('resources/img/Battleback1.png')
+            self.background = pygame.image.load('resources/img/battleback1.png')
             self.ground_image = pygame.image.load('resources/img/Ground.png')
             self.alucard_sprite_sheet = Spritesheet('resources/img/alucardfinal.png')
 
