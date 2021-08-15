@@ -19,7 +19,7 @@ class Player(pygame.sprite.Sprite):
 
         # --------------- Position and Direction -------------
         self.vx = 0
-        self.pos = vec((100, 240))
+        self.pos = vec((self.game.sockets.get_player1_x(), 240))
         self.vel = vec(0, 0)
         self.acc = vec(0, 0)
 

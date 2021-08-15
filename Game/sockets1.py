@@ -5,7 +5,8 @@ class SocketConnection:
 
     global sio
     global opponent_move
-    global position
+    global position1
+    global position2
 
     sio = socketio.Client()
 
@@ -30,8 +31,20 @@ class SocketConnection:
     @sio.event
     def position(data):
         print("We are: ", data)
-        global position
-        position = data
+        global position1
+        global position2
+        if data == "Player1":
+            position1 = 100
+            position2 = 580
+        else:
+            position1 = 580
+            position2 = 100
+
+    def get_player1_x(self):
+        return position1
+
+    def get_player2_x(self):
+        return position2
 
     @sio.event
     def receive(data):
