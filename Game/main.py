@@ -3,6 +3,7 @@ from pygame.locals import *
 from config import *
 from data.player import *
 from data.ground import *
+from data.player2 import *
 
 # ------------------------ Main Game Class
 class Game:
@@ -17,14 +18,17 @@ class Game:
             self.background = pygame.image.load('resources/img/Battleback1.png')
             self.ground_image = pygame.image.load('resources/img/Ground.png')
             self.alucard_sprite_sheet = Spritesheet('resources/img/alucardfinal.png')
+            self.fixer_sprite_sheet = Spritesheet('resources/img/thefixer.png')
 
 # ----------------------- Putting sprites into groups and instantiatiating objects
       def new(self):
             self.all_sprites = pygame.sprite.LayeredUpdates()
             self.ground_group = pygame.sprite.LayeredUpdates()
             self.player = pygame.sprite.LayeredUpdates()
+            self.player2 = pygame.sprite.LayeredUpdates()
             self.ground = Ground(self)
             self.player = Player(self)
+            self.player2 = Player2(self)
 
 # ------------------------ Update every sprite in the game/added to all_sprites group -------------------
       def update(self):
@@ -36,6 +40,7 @@ class Game:
             self.screen.blit(self.background, (0, 0))
             self.all_sprites.draw(self.screen)
             self.player.basic_health()
+            self.player2.basic_health()
             self.clock.tick(FPS)
             pygame.display.update()
 
@@ -61,6 +66,8 @@ class Game:
                         # for testing health bar
                         if event.key == pygame.K_DOWN:
                               self.player.get_damage(50)
+                        if event.key == pygame.K_a:
+                              self.player2.get_damage(50)
                         # pass
 
 # ------ starting the game --------

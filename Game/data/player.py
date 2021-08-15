@@ -105,6 +105,10 @@ class Player(pygame.sprite.Sprite):
             self.move_frame = 0
             return
 
+        if self.running == False:
+            self.image = self.game.alucard_sprite_sheet.get_sprite(38, 179, 145, 125)
+            self.image.set_colorkey(MAGENTA)
+
         if self.jumping == False and self.running == True:
             if self.vel.x > 0:
               if self.direction == "RIGHT" and self.running is False:
