@@ -3,9 +3,6 @@ from pygame.locals import *
 from data.sprite_sheet import *
 from config import *
 
-# from main import move
-
-# from main import sio
 
 # -------------- Player Class ------------------
 class Player(pygame.sprite.Sprite):

@@ -4,8 +4,6 @@ from config import *
 from data.player import *
 from data.ground import *
 from data.player2 import Player2
-
-
 from sockets1 import SocketConnection
 
 
