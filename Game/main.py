@@ -10,6 +10,7 @@ from sockets1 import SocketConnection
 # ------------------------ Main Game Class
 class Game:
     def __init__(self):
+        pygame.init()
         self.screen = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
         pygame.display.set_caption("Code Fighter")
         # self.font = pygame.font.Font("resources/blackbone-font/Blackbone-0WxXR.ttf", 64)
@@ -20,15 +21,17 @@ class Game:
         self.background = pygame.image.load("resources/img/battleback1.png")
         self.ground_image = pygame.image.load("resources/img/Ground.png")
         self.alucard_sprite_sheet = Spritesheet("resources/img/alucardfinal.png")
+        self.fixer_sprite_sheet = Spritesheet("resources/img/thefixer.png")
 
     # ----------------------- Putting sprites into groups and instantiatiating objects
     def new(self):
-        self.sockets = SocketConnection()
-        self.sockets.start_connection()
+        # # self.sockets = SocketConnection()
+        # self.sockets.start_connection()
         self.all_sprites = pygame.sprite.LayeredUpdates()
         self.ground_group = pygame.sprite.LayeredUpdates()
-        self.player = pygame.sprite.LayeredUpdates()
-        self.player2 = pygame.sprite.LayeredUpdates()
+        self.attacks = pygame.sprite.LayeredUpdates()
+        self.player_group = pygame.sprite.LayeredUpdates()
+        self.player2_group = pygame.sprite.LayeredUpdates()
         self.ground = Ground(self)
         self.player = Player(self)
         self.player2 = Player2(self)
@@ -42,6 +45,27 @@ class Game:
             if event.type == pygame.MOUSEBUTTONDOWN:
                 pass
 
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    self.player.attacking = True
+                    self.player.attack_animation()
+                    if self.player.direction == "RIGHT":
+                        Attack(self, self.player.rect.x + self.player.width, self.player.rect.y)
+                    if self.player.direction == "LEFT":
+                        Attack(self, self.player.rect.x - self.player.width // 3, self.player.rect.y)
+                    
+                if event.key == pygame.K_d:
+                    self.player2.attacking = True
+                    self.player2.animate_attack
+                    if self.player.direction == "RIGHT":
+                        Attack(self, self.player2.rect.x + self.player2.width, self.player2.rect.y)
+                    if self.player.direction == "LEFT":
+                        Attack(self, self.player2.rect.x - self.player2.width // 3, self.player2.rect.y)
+
+                    
+
+
+
     # ------------------------ Update every sprite in the game/added to all_sprites group -------------------
     def update(self):
         self.all_sprites.update()
@@ -52,6 +76,7 @@ class Game:
         self.screen.blit(self.background, (0, 0))
         self.all_sprites.draw(self.screen)
         self.player.basic_health()
+        self.player2.basic_health()
         self.clock.tick(FPS)
         pygame.display.update()
 
