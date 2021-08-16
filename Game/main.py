@@ -1,3 +1,4 @@
+from data.attack2 import Attack2
 import pygame, sys, random
 from pygame.locals import *
 from config import *
@@ -30,6 +31,7 @@ class Game:
         self.all_sprites = pygame.sprite.LayeredUpdates()
         self.ground_group = pygame.sprite.LayeredUpdates()
         self.attacks = pygame.sprite.LayeredUpdates()
+        self.attacks2 = pygame.sprite.LayeredUpdates()
         self.player_group = pygame.sprite.LayeredUpdates()
         self.player2_group = pygame.sprite.LayeredUpdates()
         self.ground = Ground(self)
@@ -50,17 +52,17 @@ class Game:
                     self.player.attacking = True
                     self.player.attack_animation()
                     if self.player.direction == "RIGHT":
-                        Attack(self, self.player.rect.x + self.player.width, self.player.rect.y)
+                        Attack(self, self.player.rect.x + 70, self.player.rect.y)
                     if self.player.direction == "LEFT":
-                        Attack(self, self.player.rect.x - self.player.width // 3, self.player.rect.y)
+                        Attack(self, self.player.rect.x - 70, self.player.rect.y)
                     
                 if event.key == pygame.K_d:
                     self.player2.attacking = True
-                    self.player2.animate_attack
-                    if self.player.direction == "RIGHT":
-                        Attack(self, self.player2.rect.x + self.player2.width, self.player2.rect.y)
-                    if self.player.direction == "LEFT":
-                        Attack(self, self.player2.rect.x - self.player2.width // 3, self.player2.rect.y)
+                    self.player2.animate_attack()
+                    if self.player2.direction == "RIGHT":
+                        Attack2(self, self.player2.rect.x + 70, self.player2.rect.y - 20)
+                    if self.player2.direction == "LEFT":
+                        Attack2(self, self.player2.rect.x - 70, self.player2.rect.y - 20)
 
                     
 

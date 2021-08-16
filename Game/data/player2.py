@@ -9,14 +9,14 @@ from config import *
 class Player2(pygame.sprite.Sprite):
     def __init__(self, game):
         self.game = game
-        self.image = self.game.fixer_sprite_sheet.get_sprite(124, 5, 130, 125)
+        self.image = self.game.fixer_sprite_sheet.get_sprite(130, 5, 100, 120)
         self.image.set_colorkey(MAGENTA2)
         self.rect = self.image.get_rect()
         self.groups = self.game.all_sprites, self.game.player2_group
         pygame.sprite.Sprite.__init__(self, self.groups)
 
-        self.width = 145
-        self.height = 125
+        self.width = 100
+        self.height = 120
 
         # ------------- Health & Health Bar ----------------
 
@@ -151,27 +151,28 @@ class Player2(pygame.sprite.Sprite):
 
     def animate_attack(self):
         attack_ani = [
-            self.game.fixer_sprite_sheet.get_sprite(468, 411, self.width + 5, self.height),
-            self.game.fixer_sprite_sheet.get_sprite(0, 0, self.width, self.height),
-            self.game.fixer_sprite_sheet.get_sprite(186, 555, self.width + 30, self.height),
-            self.game.fixer_sprite_sheet.get_sprite(339, 555, self.width, self.height),
+            self.game.fixer_sprite_sheet.get_sprite(465, 416, self.width + 20, self.height - 10),
+            self.game.fixer_sprite_sheet.get_sprite(0, 0, self.width + 20, self.height - 10),
+            self.game.fixer_sprite_sheet.get_sprite(180, 562, self.width + 50, self.height - 10),
+            self.game.fixer_sprite_sheet.get_sprite(340, 566, self.width + 20, self.height - 15),
+            self.game.fixer_sprite_sheet.get_sprite(256, 11, self.width + 30, self.height - 20)
         ]
 
         if self.attacking == True:
             if self.direction == "RIGHT":
                 self.image = attack_ani[math.floor(self.attack_frame)]
-                self.image.set_colorkey(MAGENTA)
-                self.attack_frame += 0.2
-                if self.attack_frame >= 3:
+                self.image.set_colorkey(MAGENTA2)
+                self.attack_frame += 0.1
+                if self.attack_frame >= 5:
                     self.attack_frame = 1
                     self.attacking = False
 
             if self.direction == "LEFT":
                 self.image = attack_ani[math.floor(self.attack_frame)]
-                self.image.set_colorkey(MAGENTA)
+                self.image.set_colorkey(MAGENTA2)
                 self.image = pygame.transform.flip(self.image, True, False)
-                self.attack_frame += 0.2
-                if self.attack_frame >= 3:
+                self.attack_frame += 0.1
+                if self.attack_frame >= 5:
                     self.attack_frame = 1
                     self.attacking = False
 

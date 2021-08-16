@@ -243,7 +243,7 @@ class Player(pygame.sprite.Sprite):
         pygame.draw.rect(self.game.screen, WHITE, (10, 10, self.healthbar_length, 25), 2)
 
     def collide_attack(self):
-        hits = pygame.sprite.spritecollide(self, self.game.attacks, False)
+        hits = pygame.sprite.spritecollide(self, self.game.attacks2, False)
         if hits:
             self.get_damage(10)
 

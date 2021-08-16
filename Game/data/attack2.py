@@ -5,7 +5,7 @@ class Attack2(pygame.sprite.Sprite):
     def __init__(self, game, x, y):
         self.game = game
         # self._layer = PLAYER_LAYER
-        self.groups = self.game.all_sprites, self.game.attacks
+        self.groups = self.game.all_sprites, self.game.attacks2
         pygame.sprite.Sprite.__init__(self, self.groups)
 
         self.x = x
@@ -22,36 +22,29 @@ class Attack2(pygame.sprite.Sprite):
 
     def update(self):
         self.animate()
-        self.collide()
-
-    def collide(self):
-        hits = pygame.sprite.spritecollide(self, self.game.player_group, False)
-        if hits:
-            self.game.player -= self.game.player.current_health
 
     def animate(self):
         direction = self.game.player.direction
 
-        animations = [self.game.alucard_sprite_sheet.get_sprite(67, 4694, self.width, self.height + 30),
-                    self.game.alucard_sprite_sheet.get_sprite(208, 4700, self.width + 10, self.height + 50),
-                    self.game.alucard_sprite_sheet.get_sprite(360, 4704, self.width + 30, self.height + 50),
-                    self.game.alucard_sprite_sheet.get_sprite(71, 4864, self.width + 30, self.height + 35),
-                    self.game.alucard_sprite_sheet.get_sprite(233, 4886, self.width + 45, self.height),
-                    self.game.alucard_sprite_sheet.get_sprite(392, 4913, self.width + 40, self.height + 35)
+        animations = [
+                    self.game.alucard_sprite_sheet.get_sprite(359, 4594, self.width, self.height),
+                    self.game.alucard_sprite_sheet.get_sprite(197, 4699, self.width + 30, self.height + 50),
+                    self.game.alucard_sprite_sheet.get_sprite(362, 4705, self.width + 30, self.height + 45),
                     ]
 
-        if direction == "RIGHT":
+        if self.game.player2.direction == "RIGHT":
             self.image = animations[math.floor(self.animation_loop)]
             self.image.set_colorkey(MAGENTA)
-            self.image = pygame.transform.flip(self.image, False, True)
-            self.animation_loop += 0.2
-            if self.animation_loop >= 6:
+            self.image = pygame.transform.rotate(self.image, 90)
+            self.animation_loop += 0.15
+            if self.animation_loop >= 3:
                 self.kill()
 
-        if direction == "LEFT":
+        if self.game.player2.direction == "LEFT":
             self.image = animations[math.floor(self.animation_loop)]
             self.image.set_colorkey(MAGENTA)
-            self.image = pygame.transform.flip(self.image, True, True)
-            self.animation_loop += 0.2
-            if self.animation_loop >= 6:
+            self.image = pygame.transform.rotate(self.image, 90)
+            self.image = pygame.transform.flip(self.image, True, False)
+            self.animation_loop += 0.15
+            if self.animation_loop >= 3:
                 self.kill()
