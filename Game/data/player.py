@@ -24,6 +24,8 @@ class Player(pygame.sprite.Sprite):
         self.max_health = MAX_HEALTH
         self.healthbar_length = 300  # pixels
         self.health_ratio = self.max_health / self.healthbar_length
+        self.death_frame = 0
+        self.dead = False
 
         # --------------- Position and Direction -------------
         self.vx = 0
@@ -37,22 +39,12 @@ class Player(pygame.sprite.Sprite):
         self.jumping = False
         self.running = False
         self.move_frame = 0
-        self.run_ani_R = [
-            self.game.alucard_sprite_sheet.get_sprite(268, 795, self.width, self.height),
-            self.game.alucard_sprite_sheet.get_sprite(75, 793, self.width, self.height),
-            self.game.alucard_sprite_sheet.get_sprite(54, 927, self.width, self.height),
-        ]
-
-        self.run_ani_L = [
-            self.game.alucard_sprite_sheet.get_sprite(268, 795, self.width, self.height),
-            self.game.alucard_sprite_sheet.get_sprite(75, 793, self.width, self.height),
-            self.game.alucard_sprite_sheet.get_sprite(54, 927, self.width, self.height),
-        ]
 
         # ----------- Combat ---------------------
         self.attacking = False
         # self.cooldown = False
         self.attack_frame = 0
+
 
 
 
@@ -123,11 +115,17 @@ class Player(pygame.sprite.Sprite):
         self.collide_player()
         self.attack_animation()
         self.collide_attack()
+        self.animate_death()
 
     def animate_move(self):
         if self.move_frame > 3:
             self.move_frame = 0
             return
+        self.run_ani = [
+            self.game.alucard_sprite_sheet.get_sprite(268, 795, self.width, self.height),
+            self.game.alucard_sprite_sheet.get_sprite(75, 793, self.width, self.height),
+            self.game.alucard_sprite_sheet.get_sprite(54, 927, self.width, self.height),
+        ]
 
         if self.jumping == False and self.running == True:
             if self.vel.x > 0:
@@ -135,7 +133,7 @@ class Player(pygame.sprite.Sprite):
                     self.image = self.game.alucard_sprite_sheet.get_sprite(38, 179, 145, 125)
                     self.image.set_colorkey(MAGENTA)
                 else:
-                    self.image = self.run_ani_R[math.floor(self.move_frame)]
+                    self.image = self.run_ani[math.floor(self.move_frame)]
                     self.image.set_colorkey(MAGENTA)
             elif self.vel.x < 0:
                 if self.direction == "LEFT" and self.running is False:
@@ -143,7 +141,7 @@ class Player(pygame.sprite.Sprite):
                     self.image = pygame.transform.flip(self.image, True, False)
                     self.image.set_colorkey(MAGENTA)
                 else:
-                    self.image = self.run_ani_L[math.floor(self.move_frame)]
+                    self.image = self.run_ani[math.floor(self.move_frame)]
                     self.image.set_colorkey(MAGENTA)
                     self.image = pygame.transform.flip(self.image, True, False)
 
@@ -152,9 +150,9 @@ class Player(pygame.sprite.Sprite):
         if abs(self.vel.x) < 0.2 and self.move_frame != 0:
             self.move_frame = 0
             if self.direction == "RIGHT":
-                self.image = self.run_ani_R[self.move_frame]
+                self.image = self.run_ani[self.move_frame]
             elif self.direction == "LEFT":
-                self.image = self.run_ani_L[self.move_frame]
+                self.image = self.run_ani[self.move_frame]
 
     # ----- correction for pygame attack error when attacking left ----------
     def correction(self):
@@ -164,7 +162,7 @@ class Player(pygame.sprite.Sprite):
             self.pos.x += 20
 
     def attack_animation(self):
-        attack_ani_R = [
+        attack_ani = [
             self.game.alucard_sprite_sheet.get_sprite(30, 3866, self.width, self.height - 25),
             self.game.alucard_sprite_sheet.get_sprite(170, 3866, self.width, self.height - 25),
             self.game.alucard_sprite_sheet.get_sprite(314, 3860, self.width + 55, self.height),
@@ -172,7 +170,7 @@ class Player(pygame.sprite.Sprite):
 
         if self.attacking == True:
             if self.direction == "RIGHT":
-                self.image = attack_ani_R[math.floor(self.attack_frame)]
+                self.image = attack_ani[math.floor(self.attack_frame)]
                 self.image.set_colorkey(MAGENTA)
                 self.attack_frame += 0.2
                 if self.attack_frame >= 3:
@@ -182,7 +180,7 @@ class Player(pygame.sprite.Sprite):
                     self.image.set_colorkey(MAGENTA)
 
             if self.direction == "LEFT":
-                self.image = attack_ani_R[math.floor(self.attack_frame)]
+                self.image = attack_ani[math.floor(self.attack_frame)]
                 self.image.set_colorkey(MAGENTA)
                 self.image = pygame.transform.flip(self.image, True, False)
                 self.attack_frame += 0.2
@@ -191,14 +189,6 @@ class Player(pygame.sprite.Sprite):
                     self.attacking = False
                     self.image = self.game.alucard_sprite_sheet.get_sprite(38, 179, 145, 125)
                     self.image.set_colorkey(MAGENTA)
-
-
-        # elif self.direction == "LEFT":
-        #     self.correction()
-        #     self.image = self.attack_ani_L[math.floor(self.attack_frame)]
-        #     self.image.set_colorkey(MAGENTA)
-        #     self.image = pygame.transform.flip(self.image, True, False)
-        # self.attack_frame += 0.3
 
     # def player_hit(self):
     #     hits = pygame.sprite.spritecollide(self, self.player, False)
@@ -260,3 +250,25 @@ class Player(pygame.sprite.Sprite):
                 if self.pos.x > self.rect.left:
                     self.pos.x = self.rect.right
                     self.vel.x = 0
+
+    def animate_death(self):
+        death_animation = [
+                self.game.alucard_sprite_sheet.get_sprite(57, 5008, self.width, self.height - 15),
+                self.game.alucard_sprite_sheet.get_sprite(214, 5005, 116, 113),
+                self.game.alucard_sprite_sheet.get_sprite(346, 5012, 117, 103),
+                self.game.alucard_sprite_sheet.get_sprite(60, 5118, 110, 104),
+                self.game.alucard_sprite_sheet.get_sprite(214, 5128, 120, 89),
+                self.game.alucard_sprite_sheet.get_sprite(363, 5119, 120, 102),
+            ]
+
+        if self.cur_health == 0:
+            self.image = death_animation[math.floor(self.death_frame)]
+            self.image.set_colorkey(MAGENTA)
+            self.death_frame += 0.2
+            if self.death_frame >= 6:
+                self.death_frame = 0
+                self.dead = True
+            if self.dead == True:
+                self.image = self.game.alucard_sprite_sheet.get_sprite(374, 5227, 130, 59)
+                self.image.set_colorkey(MAGENTA)
+                # self.acc = 0

@@ -86,9 +86,9 @@ class Game:
                     self.player.attacking = True
                     self.player.attack_animation()
                     if self.player.direction == "RIGHT":
-                        Attack(self, self.player.rect.x + 70, self.player.rect.y)
+                        Attack(self, self.player.rect.x + 70, self.player.rect.y - 20)
                     if self.player.direction == "LEFT":
-                        Attack(self, self.player.rect.x - 70, self.player.rect.y)
+                        Attack(self, self.player.rect.x - 70, self.player.rect.y - 20)
                     
                 if event.key == pygame.K_d:
                     self.player2.attacking = True

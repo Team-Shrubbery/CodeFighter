@@ -25,6 +25,10 @@ class Player2(pygame.sprite.Sprite):
         self.healthbar_length = 300  # pixels
         self.health_ratio = self.max_health / self.healthbar_length
 
+        # -------------- Character Death ------------------
+        self.dead = False
+        self.death_frame = 0
+
         # --------------- Position and Direction -------------
         self.vx = 0
         self.pos = vec((500, 240))
@@ -109,6 +113,7 @@ class Player2(pygame.sprite.Sprite):
         self.collide_player()
         self.animate_attack()
         self.collide_attack()
+        self.animate_death()
 
     def animate_move(self):
         self.run_ani = [
@@ -193,7 +198,6 @@ class Player2(pygame.sprite.Sprite):
             self.cur_health -= amount
         if self.cur_health <= 0:
             self.cur_health = 0
-            self.kill()
 
     def get_health(self, amount):  # adds health
         if self.cur_health > self.max_health:
@@ -229,6 +233,26 @@ class Player2(pygame.sprite.Sprite):
                 if self.pos.x > self.rect.left:
                     self.pos.x = self.rect.right
                     self.vel.x = 0
+
+    def animate_death(self):
+        death_animation = [
+            self.game.fixer_sprite_sheet.get_sprite(13, 1078, 122, 116),
+            self.game.fixer_sprite_sheet.get_sprite(147, 1079, 122, 116),
+            self.game.fixer_sprite_sheet.get_sprite(284, 1086, 122, 122),
+            self.game.fixer_sprite_sheet.get_sprite(418, 1105, 152, 83),
+            ]
+
+        if self.cur_health == 0:
+            self.image = death_animation[math.floor(self.death_frame)]
+            self.image.set_colorkey(MAGENTA2)
+            self.death_frame += 0.2
+            if self.death_frame >= 4:
+                self.death_frame = 0
+                self.dead = True
+            if self.dead == True:
+                self.image = self.game.fixer_sprite_sheet.get_sprite(6, 1208, 198, 63)
+                self.image.set_colorkey(MAGENTA2)
+                # self.acc = 0
 
 # import pygame, math
 # from pygame.locals import *
