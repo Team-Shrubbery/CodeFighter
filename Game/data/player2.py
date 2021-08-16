@@ -208,12 +208,12 @@ class Player2(pygame.sprite.Sprite):
     def basic_health(self):  # draws the health bar inside a box
         if self.cur_health <= (MAX_HEALTH / 2):
             if self.cur_health <= (MAX_HEALTH / 4):
-                pygame.draw.rect(self.game.screen, RED, (WIN_WIDTH // 2, 10, self.cur_health / self.health_ratio, 25))
+                pygame.draw.rect(self.game.screen, RED, (WIN_WIDTH // 2, 50, self.cur_health / self.health_ratio, 25))
             else:
-                pygame.draw.rect(self.game.screen, YELLOW, (WIN_WIDTH // 2, 10, self.cur_health / self.health_ratio, 25))
+                pygame.draw.rect(self.game.screen, YELLOW, (WIN_WIDTH // 2, 50, self.cur_health / self.health_ratio, 25))
         else:
-            pygame.draw.rect(self.game.screen, GREEN, (WIN_WIDTH // 2, 10, self.cur_health / self.health_ratio, 25))
-        pygame.draw.rect(self.game.screen, WHITE, (WIN_WIDTH // 2, 10, self.healthbar_length, 25), 2)
+            pygame.draw.rect(self.game.screen, GREEN, (WIN_WIDTH // 2, 50, self.cur_health / self.health_ratio, 25))
+        pygame.draw.rect(self.game.screen, WHITE, (WIN_WIDTH // 2, 50, self.healthbar_length, 25), 2)
 
     def collide_attack(self):
         hits = pygame.sprite.spritecollide(self, self.game.attacks, False)
@@ -253,6 +253,12 @@ class Player2(pygame.sprite.Sprite):
                 self.image = self.game.fixer_sprite_sheet.get_sprite(6, 1208, 198, 63)
                 self.image.set_colorkey(MAGENTA2)
                 # self.acc = 0
+
+    def character_name(self):
+            self.font = pygame.font.Font("resources/fonts/arial.ttf", 32)
+            text = self.font.render('The Fixer', True, BLUE)
+            text_rect = text.get_rect(x=WIN_WIDTH // 2,y=10)
+            self.game.screen.blit(text, text_rect)
 
 # import pygame, math
 # from pygame.locals import *

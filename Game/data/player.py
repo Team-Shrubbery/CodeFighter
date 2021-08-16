@@ -272,3 +272,9 @@ class Player(pygame.sprite.Sprite):
                 self.image = self.game.alucard_sprite_sheet.get_sprite(374, 5227, 130, 59)
                 self.image.set_colorkey(MAGENTA)
                 # self.acc = 0
+
+    def character_name(self):
+            self.font = pygame.font.Font("resources/fonts/arial.ttf", 32)
+            text = self.font.render('Alucard', True, BLUE)
+            text_rect = text.get_rect(x=10,y=10)
+            self.game.screen.blit(text, text_rect)
