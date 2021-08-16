@@ -96,16 +96,18 @@ class Game:
             
                   # Event handling for a range of different key presses    
                   if event.type == pygame.KEYDOWN:
+
                         if self.player:
                               if event.key == pygame.K_SPACE:
                                     self.player.jump()
-                              if event.key == pygame.K_f:
+                              if event.key == pygame.K_d:
+                                    self.player.attacking = True
                                     self.player.attack()
 
                         if self.player2:
                               if event.key == pygame.K_w:
                                     self.player2.jump()
-                              if event.key == pygame.K_d:
+                              if event.key == pygame.K_RETURN:
                                     self.player2.attacking = True
                                     self.player2.attack()
 

@@ -48,6 +48,12 @@ class Player(pygame.sprite.Sprite):
                             self.game.alucard_sprite_sheet.get_sprite(170, 3866, self.width, self.height - 25),
                             self.game.alucard_sprite_sheet.get_sprite(314, 3860, self.width + 55, self.height),]
 
+# --------- sets character back to base position -------
+    def player_in_place(self):
+        self.image = self.game.alucard_sprite_sheet.get_sprite(38, 179, 145, 125)
+        self.image.set_colorkey(MAGENTA)
+
+# ---------- Calculations and input to make the character move on the x axis -------
     def move(self):
         self.acc = vec(0, 0.5)
         if abs(self.vel.x) > 0.3:
@@ -74,28 +80,8 @@ class Player(pygame.sprite.Sprite):
             self.pos.x = WIN_WIDTH
         self.rect.midbottom = self.pos
 
-    def gravity_check(self):
-        # hits = collide with anything in the ground_group
-        hits = pygame.sprite.spritecollide(self, self.game.ground_group, False)
-        if self.vel.y > 0:
-            if hits:
-                lowest = hits[0]
-                if self.pos.y < lowest.rect.bottom:
-                    self.pos.y = lowest.rect.top + 1
-                    self.vel.y = 0
-                    self.jumping = False
-    
-# ---------- method calls -----------
-    def update(self):
-        self.move()
-        self.gravity_check()
-        self.animate()
-        self.collide_player()
-        self.get_hit()
-        if self.attacking == True:
-            self.attack()
-
-    def animate(self):
+# -------- animations for the character moving right and left ----------------
+    def animate_movement(self):
         if self.move_frame > 3:
             self.move_frame = 0
             return
@@ -120,9 +106,7 @@ class Player(pygame.sprite.Sprite):
 
             self.move_frame += 0.1
         
-        if self.running == False:
-            self.image = self.game.alucard_sprite_sheet.get_sprite(38, 179, 145, 125)
-            self.image.set_colorkey(MAGENTA)
+
 
         if abs(self.vel.x) < 0.2 and self.move_frame != 0:
             self.move_frame = 0
@@ -130,6 +114,35 @@ class Player(pygame.sprite.Sprite):
                 self.image = self.run_ani_R[self.move_frame]
             elif self.direction == "LEFT":
                 self.image = self.run_ani_L[self.move_frame]
+
+# ---------- Artificial gravity that pulls the character into the ground sprite ----------
+    def gravity_check(self):
+        # hits = collide with anything in the ground_group
+        hits = pygame.sprite.spritecollide(self, self.game.ground_group, False)
+        if self.vel.y > 0:
+            if hits:
+                lowest = hits[0]
+                if self.pos.y < lowest.rect.bottom:
+                    self.pos.y = lowest.rect.top + 1
+                    self.vel.y = 0
+                    self.jumping = False
+    
+# ---------- method calls -----------
+    def update(self):
+        self.move()
+        self.gravity_check()
+        self.animate_movement()
+        self.collide_player()
+        # self.get_hit()
+        # if self.attacking == True:
+        #     self.attack()
+
+# ------------- function for when the player is standing in place ---------
+    def player_in_place(self):
+        self.image = self.game.alucard_sprite_sheet.get_sprite(38, 179, 145, 125)
+        self.image.set_colorkey(MAGENTA)
+
+
 
 # ----- correction for pygame attack error when attacking left ----------
     def correction(self):
@@ -140,19 +153,24 @@ class Player(pygame.sprite.Sprite):
 
 
     def attack(self):
-        if self.attack_frame > 3:
-            self.attack_frame = 0
-            self.attacking = False
+        if self.attack_frame != 3:
+            if self.direction == "RIGHT":
+                self.image = self.attack_ani_R[math.floor(self.attack_frame)]
+                self.image.set_colorkey(THIS_COLOR)
+            elif self.direction == "LEFT":
+                self.correction()
+                self.image = self.attack_ani_R[math.floor(self.attack_frame)]
+                self.image.set_colorkey(THIS_COLOR)
+                self.image = pygame.transform.flip(self.image, True, False)
 
-        if self.direction == "RIGHT":
-            self.image = self.attack_ani_R[math.floor(self.attack_frame)]
-            self.image.set_colorkey(MAGENTA)
-        elif self.direction == "LEFT":
-            # self.correction()
-            self.image = self.attack_ani_L[math.floor(self.attack_frame)]
-            self.image.set_colorkey(MAGENTA)
-            self.image = pygame.transform.flip(self.image, True, False)
-        self.attack_frame += 0.1
+
+            self.attack_frame += 0.1
+
+            if self.attack_frame >= 3:
+                self.attacking = False
+                self.attack_frame = 0
+                self.image = self.game.alucard_sprite_sheet.get_sprite(38, 179, 145, 125)
+                self.image.set_colorkey(MAGENTA)
 
     # def player_hit(self):
     #     hits = pygame.sprite.spritecollide(self, self.game.player2_group, False)
@@ -183,13 +201,13 @@ class Player(pygame.sprite.Sprite):
         if self.vel.x > 0:
             if hits:
                 if self.pos.x < self.rect.right:
-                    self.pos.x = self.rect.left + 1
+                    self.pos.x = self.rect.left
                     self.vel.x = 0
 
         if self.vel.x < 0:
             if hits:
                 if self.pos.x > self.rect.left:
-                    self.pos.x = self.rect.right + 1
+                    self.pos.x = self.rect.right
                     self.vel.x = 0
 
     def jump(self):

@@ -176,11 +176,11 @@ class Player2(pygame.sprite.Sprite):
         if self.vel.x > 0:
             if hits:
                 if self.pos.x < self.rect.right:
-                    self.pos.x = self.rect.left + 1
+                    self.pos.x = self.rect.left
                     self.vel.x = 0
 
         if self.vel.x < 0:
             if hits:
                 if self.pos.x > self.rect.left:
-                    self.pos.x = self.rect.right + 1
+                    self.pos.x = self.rect.right
                     self.vel.x = 0
