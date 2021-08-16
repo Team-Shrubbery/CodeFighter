@@ -8,13 +8,13 @@ from config import *
 class Player2(pygame.sprite.Sprite):
     def __init__(self, game):
         self.game = game
-        self.image = self.game.fixer_sprite_sheet.get_sprite(0, 0, 130, 125)
+        self.image = self.game.fixer_sprite_sheet.get_sprite(124, 5, 130, 125)
         self.image.set_colorkey(THIS_COLOR)
         self.rect = self.image.get_rect()
         self.groups = self.game.all_sprites, self.game.player2_group
         pygame.sprite.Sprite.__init__(self, self.groups)
-        self.width = 145
-        self.height = 125
+        self.width = 120
+        self.height = 120
 
 # --------------- Position and Direction -------------
         self.vx = 0
@@ -38,9 +38,10 @@ class Player2(pygame.sprite.Sprite):
         self.attacking = False
         self.cooldown = False
         self.attack_frame = 0
-        self.attack_ani_R = [self.game.fixer_sprite_sheet.get_sprite(30, 3866, self.width, self.height - 25),
-                            self.game.fixer_sprite_sheet.get_sprite(170, 3866, self.width, self.height - 25),
-                            self.game.fixer_sprite_sheet.get_sprite(314, 3860, self.width + 55, self.height),]
+        self.attack_ani_R = [self.game.fixer_sprite_sheet.get_sprite(468, 411, self.width + 5, self.height),
+                            self.game.fixer_sprite_sheet.get_sprite(0, 0, self.width, self.height),
+                            self.game.fixer_sprite_sheet.get_sprite(186, 555, self.width + 30, self.height),
+                            self.game.fixer_sprite_sheet.get_sprite(339, 555, self.width, self.height)]
  
         self.attack_ani_L = [self.game.fixer_sprite_sheet.get_sprite(30, 3866, self.width, self.height - 25),
                             self.game.fixer_sprite_sheet.get_sprite(170, 3866, self.width, self.height - 25),
@@ -61,10 +62,6 @@ class Player2(pygame.sprite.Sprite):
         if pressed_keys[K_s]:
             self.acc.x = ACC
             self.direction = "RIGHT"
-        if pressed_keys[K_w]:
-            self.jump()
-        if pressed_keys[K_d]:
-            self.attack()
 
         self.acc.x += self.vel.x * FRIC
         self.vel += self.acc
@@ -135,19 +132,20 @@ class Player2(pygame.sprite.Sprite):
 
 
     def attack(self):
-        if self.attack_frame > 3:
-            self.attack_frame = 0
-            self.attacking = False
+        while self.attacking == True:
+            if self.direction == "RIGHT":
+                self.image = self.attack_ani_R[math.floor(self.attack_frame)]
+                self.image.set_colorkey(THIS_COLOR)
+            elif self.direction == "LEFT":
+                self.correction()
+                self.image = self.attack_ani_R[math.floor(self.attack_frame)]
+                self.image.set_colorkey(THIS_COLOR)
+                self.image = pygame.transform.flip(self.image, True, False)
 
-        if self.direction == "RIGHT":
-            self.image = self.attack_ani_R[math.floor(self.attack_frame)]
-            self.image.set_colorkey(MAGENTA)
-        elif self.direction == "LEFT":
-            self.correction()
-            self.image = self.attack_ani_L[math.floor(self.attack_frame)]
-            self.image.set_colorkey(MAGENTA)
-            self.image = pygame.transform.flip(self.image, True, False)
-        self.attack_frame += 0.3
+            if self.attack_frame >= 3:
+                self.attacking = False
+            self.attack_frame += 0.01
+
 
     def player_hit(self):
         hits = pygame.sprite.spritecollide(self, self.player2_group, False)
@@ -183,6 +181,6 @@ class Player2(pygame.sprite.Sprite):
 
         if self.vel.x < 0:
             if hits:
-                if self.pos.x < self.rect.left:
+                if self.pos.x > self.rect.left:
                     self.pos.x = self.rect.right + 1
                     self.vel.x = 0

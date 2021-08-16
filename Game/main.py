@@ -14,7 +14,7 @@ class Game:
             pygame.init()
             self.screen = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
             pygame.display.set_caption("Code Fighter")
-            self.font = pygame.font.Font("resources/fonts/arial.ttf", 32)
+            self.font = pygame.font.Font("resources/fonts/arial.ttf", 128)
             self.clock = pygame.time.Clock()
             self.playing = True
 
@@ -29,7 +29,7 @@ class Game:
             intro = True
 
             title = self.font.render('Code Fighter', True, BLUE)
-            title_rect = title.get_rect(x=WIN_WIDTH // 2,y=10)
+            title_rect = title.get_rect(x=10,y=10)
             play_button = Button(WIN_WIDTH // 2,WIN_HEIGHT // 2,100,50, RED, BLACK, 'Play', 32)
 
 
@@ -46,7 +46,7 @@ class Game:
                               intro = False
 
                         self.intro_background = pygame.transform.scale(self.intro_background, (WIN_WIDTH, WIN_HEIGHT))
-                        self.screen.blit(self.intro_background, (0,0))
+                        self.screen.fill(GREY)
                         self.screen.blit(title, title_rect)
                         self.screen.blit(play_button.image, play_button.rect)
 
@@ -96,7 +96,24 @@ class Game:
             
                   # Event handling for a range of different key presses    
                   if event.type == pygame.KEYDOWN:
-                        pass
+                        if self.player:
+                              if event.key == pygame.K_SPACE:
+                                    self.player.jump()
+                              if event.key == pygame.K_f:
+                                    self.player.attack()
+
+                        if self.player2:
+                              if event.key == pygame.K_w:
+                                    self.player2.jump()
+                              if event.key == pygame.K_d:
+                                    self.player2.attacking = True
+                                    self.player2.attack()
+
+                  # if event.type == pygame.KEYUP:
+                  #       if self.player2:
+                  #             if event.key == K_d:
+                  #                   self.player2.attacking = False
+
       
       # def basic_health(self):
       #       pygame.draw.line(self.screen, GREEN, (0,30),(0, 30) , self.player.current_health)

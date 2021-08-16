@@ -63,10 +63,6 @@ class Player(pygame.sprite.Sprite):
         if pressed_keys[K_RIGHT]:
             self.acc.x = ACC
             self.direction = "RIGHT"
-        if pressed_keys[K_SPACE]:
-            self.jump()
-        if pressed_keys[K_RETURN]:
-            self.attack()
 
         self.acc.x += self.vel.x * FRIC
         self.vel += self.acc
@@ -94,7 +90,6 @@ class Player(pygame.sprite.Sprite):
         self.move()
         self.gravity_check()
         self.animate()
-        # self.rect.x += self.vels
         self.collide_player()
         self.get_hit()
         if self.attacking == True:
@@ -153,11 +148,11 @@ class Player(pygame.sprite.Sprite):
             self.image = self.attack_ani_R[math.floor(self.attack_frame)]
             self.image.set_colorkey(MAGENTA)
         elif self.direction == "LEFT":
-            self.correction()
+            # self.correction()
             self.image = self.attack_ani_L[math.floor(self.attack_frame)]
             self.image.set_colorkey(MAGENTA)
             self.image = pygame.transform.flip(self.image, True, False)
-        self.attack_frame += 0.3
+        self.attack_frame += 0.1
 
     # def player_hit(self):
     #     hits = pygame.sprite.spritecollide(self, self.game.player2_group, False)
@@ -193,7 +188,7 @@ class Player(pygame.sprite.Sprite):
 
         if self.vel.x < 0:
             if hits:
-                if self.pos.x < self.rect.left:
+                if self.pos.x > self.rect.left:
                     self.pos.x = self.rect.right + 1
                     self.vel.x = 0
 
