@@ -18,6 +18,9 @@ class Game:
         self.font = pygame.font.Font("resources/fonts/arial.ttf", 128)
         self.clock = pygame.time.Clock()
         self.playing = True
+        self.fighting = False
+        self.player_wins = 0
+        self.player2_wins = 0
 
         # ----------------------- Sprite Sheets and image files to load ---------------------------
         self.background = pygame.image.load("resources/img/battleback1.png")
@@ -45,6 +48,7 @@ class Game:
 
                         if play_button.is_pressed(mouse_pos, mouse_pressed):
                             intro = False
+                            self.fighting = True
 
                         if quit_button.is_pressed(mouse_pos, mouse_pressed):
                             intro = False
@@ -113,6 +117,7 @@ class Game:
         self.all_sprites.draw(self.screen)
         self.player.basic_health()
         self.player2.basic_health()
+        self.game_over()
         self.clock.tick(FPS)
         pygame.display.update()
 
@@ -124,6 +129,24 @@ class Game:
             self.draw()
         self.playing = False
 
+    def winner(self):
+        if self.player.cur_health == 0:
+            self.player2_wins += 1
+        if self.player2.cur_health == 0:
+            self.player_wins +=1
+
+    def game_over(self):
+        self.font = pygame.font.Font("resources/fonts/arial.ttf", 64)
+        if self.player2.dead == True:
+            text = self.font.render('PLAYER ONE WINS', True, BLUE)
+            text_rect = text.get_rect(x=20,y=100)
+            self.screen.blit(text, text_rect)
+
+        if self.player.dead == True:
+            text = self.font.render('PLAYER TWO WINS', True, BLUE)
+            text_rect = text.get_rect(x=20,y=100)
+            self.screen.blit(text, text_rect)
+
 
 # ------ starting the game --------
 
@@ -134,6 +157,7 @@ g.new()
 
 while g.playing is True:
     g.main()
+    # g.game_over()
 
 pygame.quit()
 sys.exit()
