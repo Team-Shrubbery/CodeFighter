@@ -5,6 +5,7 @@ from config import *
 from data.player import *
 from data.ground import *
 from data.player2 import Player2
+from data.button import *
 from sockets1 import SocketConnection
 
 
@@ -14,7 +15,7 @@ class Game:
         pygame.init()
         self.screen = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
         pygame.display.set_caption("Code Fighter")
-        # self.font = pygame.font.Font("resources/blackbone-font/Blackbone-0WxXR.ttf", 64)
+        self.font = pygame.font.Font("resources/fonts/arial.ttf", 128)
         self.clock = pygame.time.Clock()
         self.playing = True
 
@@ -23,6 +24,39 @@ class Game:
         self.ground_image = pygame.image.load("resources/img/Ground.png")
         self.alucard_sprite_sheet = Spritesheet("resources/img/alucardfinal.png")
         self.fixer_sprite_sheet = Spritesheet("resources/img/thefixer.png")
+
+    def intro_screen(self):
+            intro = True
+
+            title = self.font.render('Code Fighter', True, BLUE)
+            title_rect = title.get_rect(x=10,y=10)
+            play_button = Button(WIN_WIDTH // 2 - 100,WIN_HEIGHT // 2,100,50, RED, BLACK, 'Play', 32)
+            quit_button = Button(WIN_WIDTH // 2 + 100 ,WIN_HEIGHT // 2,100,50, RED, BLACK, 'Exit', 32)
+
+
+            while intro:
+                for event in pygame.event.get():
+                        if event.type == pygame.QUIT:
+                            intro = False
+                            self.playing = False
+
+                        mouse_pos = pygame.mouse.get_pos()
+                        mouse_pressed = pygame.mouse.get_pressed()
+
+                        if play_button.is_pressed(mouse_pos, mouse_pressed):
+                            intro = False
+
+                        if quit_button.is_pressed(mouse_pos, mouse_pressed):
+                            intro = False
+                            self.playing = False
+
+                        self.screen.fill(GREY)
+                        self.screen.blit(title, title_rect)
+                        self.screen.blit(play_button.image, play_button.rect)
+                        self.screen.blit(quit_button.image, quit_button.rect)
+
+                        self.clock.tick(FPS)
+                        pygame.display.update()
 
     # ----------------------- Putting sprites into groups and instantiatiating objects
     def new(self):
@@ -94,6 +128,7 @@ class Game:
 # ------ starting the game --------
 
 g = Game()
+g.intro_screen()
 g.new()
 
 

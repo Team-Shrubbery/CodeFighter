@@ -235,12 +235,12 @@ class Player(pygame.sprite.Sprite):
     def basic_health(self):  # draws the health bar inside a box
         if self.cur_health <= (MAX_HEALTH / 2):
             if self.cur_health <= (MAX_HEALTH / 4):
-                pygame.draw.rect(self.game.screen, RED, (10, 10, self.cur_health / self.health_ratio, 25))
+                pygame.draw.rect(self.game.screen, RED, (10, 50, self.cur_health / self.health_ratio, 25))
             else:
-                pygame.draw.rect(self.game.screen, YELLOW, (10, 10, self.cur_health / self.health_ratio, 25))
+                pygame.draw.rect(self.game.screen, YELLOW, (10, 50, self.cur_health / self.health_ratio, 25))
         else:
-            pygame.draw.rect(self.game.screen, GREEN, (10, 10, self.cur_health / self.health_ratio, 25))
-        pygame.draw.rect(self.game.screen, WHITE, (10, 10, self.healthbar_length, 25), 2)
+            pygame.draw.rect(self.game.screen, GREEN, (10, 50, self.cur_health / self.health_ratio, 25))
+        pygame.draw.rect(self.game.screen, WHITE, (10, 50, self.healthbar_length, 25), 2)
 
     def collide_attack(self):
         hits = pygame.sprite.spritecollide(self, self.game.attacks2, False)
