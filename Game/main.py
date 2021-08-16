@@ -48,7 +48,6 @@ class Game:
 
                         if play_button.is_pressed(mouse_pos, mouse_pressed):
                             intro = False
-                            self.fighting = True
 
                         if quit_button.is_pressed(mouse_pos, mouse_pressed):
                             intro = False
@@ -119,6 +118,7 @@ class Game:
         self.player.character_name()
         self.player2.basic_health()
         self.player2.character_name()
+        self.winner()
         self.game_over()
         self.clock.tick(FPS)
         pygame.display.update()
@@ -132,13 +132,32 @@ class Game:
         self.playing = False
 
     def winner(self):
-        if self.player.cur_health == 0:
-            self.player2_wins += 1
-        if self.player2.cur_health == 0:
-            self.player_wins +=1
+        # if self.player.dead == True:
+        #     self.player2_wins += 1
+        # if self.player2.dead == True:
+        #     self.player_wins += 1
+
+        self.font = pygame.font.Font("resources/fonts/arial.ttf", 32)
+        textstr = str(self.player_wins)
+        text = self.font.render(textstr, True, BLUE)
+        text_rect = text.get_rect(x=10,y=100)
+        self.screen.blit(text, text_rect)
+
+        textstr = str(self.player2_wins)
+        text = self.font.render(textstr, True, BLUE)
+        text_rect = text.get_rect(x=WIN_WIDTH // 2,y=100)
+        self.screen.blit(text, text_rect)
 
     def game_over(self):
+        play_button = Button(WIN_WIDTH // 2 - 100,WIN_HEIGHT // 2,100,50, RED, BLACK, 'Play Again', 16)
+        mouse_pos = pygame.mouse.get_pos()
+        mouse_pressed = pygame.mouse.get_pressed()
+
         self.font = pygame.font.Font("resources/fonts/arial.ttf", 64)
+
+        if self.player.dead or self.player2.dead == True:
+            self.screen.blit(play_button.image, play_button.rect)
+
         if self.player2.dead == True:
             text = self.font.render('PLAYER ONE WINS', True, BLUE)
             text_rect = text.get_rect(x=20,y=100)
@@ -149,6 +168,10 @@ class Game:
             text_rect = text.get_rect(x=20,y=100)
             self.screen.blit(text, text_rect)
 
+
+
+        if play_button.is_pressed(mouse_pos, mouse_pressed):
+            g.new()
 
 # ------ starting the game --------
 
