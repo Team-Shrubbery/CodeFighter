@@ -45,6 +45,14 @@ CodeFighter is a "best 2-out-of-3" style fighting game where opponents will batt
 
 [Pygame Fighter Tutorial](https://coderslegacy.com/python/pygame-rpg-game-tutorial/)
 
+[Character Sprite Sheets](http://maximoff.alreadyread.net/SpriteSheets/)
+
+[Program to find spritesheets](https://getspritexy.netlify.app/)
+
+[Pygame RPG Tutorial Code](https://www.youtube.com/channel/UChB6no22fVJ-6dGNTfbb05w)
+
+[Sockets](https://www.techwithtim.net/tutorials/python-online-game-tutorial/)
+
 ---
 
 ## Keyboard
