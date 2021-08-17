@@ -208,12 +208,12 @@ class Player2(pygame.sprite.Sprite):
     def basic_health(self):  # draws the health bar inside a box
         if self.cur_health <= (MAX_HEALTH / 2):
             if self.cur_health <= (MAX_HEALTH / 4):
-                pygame.draw.rect(self.game.screen, RED, (WIN_WIDTH // 2, 50, self.cur_health / self.health_ratio, 25))
+                pygame.draw.rect(self.game.screen, RED, ((WIN_WIDTH // 2)+85, 50, self.cur_health / self.health_ratio, 25))
             else:
-                pygame.draw.rect(self.game.screen, YELLOW, (WIN_WIDTH // 2, 50, self.cur_health / self.health_ratio, 25))
+                pygame.draw.rect(self.game.screen, YELLOW, ((WIN_WIDTH // 2)+85, 50, self.cur_health / self.health_ratio, 25))
         else:
-            pygame.draw.rect(self.game.screen, GREEN, (WIN_WIDTH // 2, 50, self.cur_health / self.health_ratio, 25))
-        pygame.draw.rect(self.game.screen, WHITE, (WIN_WIDTH // 2, 50, self.healthbar_length, 25), 2)
+            pygame.draw.rect(self.game.screen, GREEN, ((WIN_WIDTH // 2)+85, 50, self.cur_health / self.health_ratio, 25))
+        pygame.draw.rect(self.game.screen, WHITE, ((WIN_WIDTH // 2)+85, 50, self.healthbar_length, 25), 2)
 
     def collide_attack(self):
         hits = pygame.sprite.spritecollide(self, self.game.attacks, False)
@@ -256,8 +256,8 @@ class Player2(pygame.sprite.Sprite):
 
     def character_name(self):
             self.font = pygame.font.Font("resources/fonts/arial.ttf", 32)
-            text = self.font.render('The Fixer', True, BLUE)
-            text_rect = text.get_rect(x=WIN_WIDTH // 2,y=10)
+            text = self.font.render('The Fixer', True, WHITE)
+            text_rect = text.get_rect(x=(WIN_WIDTH // 2)+250,y=10)
             self.game.screen.blit(text, text_rect)
 
 # import pygame, math

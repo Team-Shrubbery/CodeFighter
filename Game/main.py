@@ -18,6 +18,7 @@ class Game:
         self.font = pygame.font.Font("resources/fonts/arial.ttf", 128)
         self.clock = pygame.time.Clock()
         self.playing = True
+        self.round_counter = 1
         self.fighting = False
         self.player_wins = 0
         self.player2_wins = 0
@@ -114,14 +115,26 @@ class Game:
         self.screen.fill(BLACK)
         self.screen.blit(self.background, (0, 0))
         self.all_sprites.draw(self.screen)
+        self.display_round()
         self.player.basic_health()
         self.player.character_name()
         self.player2.basic_health()
         self.player2.character_name()
-        self.winner()
+        self.win_display()
         self.game_over()
         self.clock.tick(FPS)
         pygame.display.update()
+    
+    def display_round(self):
+        font = pygame.font.SysFont(None, 30)
+        img = font.render('ROUND', True, BLACK)
+        self.screen.blit(img, (365, 10))
+        pygame.draw.circle(self.screen, RED, (400, 60), 30, 0)
+        font2 = pygame.font.SysFont(None, 35)
+        img2 = font2.render(f'{self.round_counter}', True, WHITE)
+        self.screen.blit(img2, (392, 47))
+
+
 
     # -------------------------  Main game loop and update calls --------------
     def main(self):
@@ -131,21 +144,21 @@ class Game:
             self.draw()
         self.playing = False
 
-    def winner(self):
+    def win_display(self):
         # if self.player.dead == True:
         #     self.player2_wins += 1
         # if self.player2.dead == True:
         #     self.player_wins += 1
 
-        self.font = pygame.font.Font("resources/fonts/arial.ttf", 32)
-        textstr = str(self.player_wins)
-        text = self.font.render(textstr, True, BLUE)
-        text_rect = text.get_rect(x=10,y=100)
+        self.font = pygame.font.Font("resources/fonts/arial.ttf", 28)
+        textstr = str(f'{self.player_wins} WINS')
+        text = self.font.render(textstr, True, BLACK)
+        text_rect = text.get_rect(x=10,y=80)
         self.screen.blit(text, text_rect)
 
-        textstr = str(self.player2_wins)
-        text = self.font.render(textstr, True, BLUE)
-        text_rect = text.get_rect(x=WIN_WIDTH // 2,y=100)
+        textstr = str(f'{self.player2_wins} WINS')
+        text = self.font.render(textstr, True, BLACK)
+        text_rect = text.get_rect(x=(WIN_WIDTH // 2)+290,y=80)
         self.screen.blit(text, text_rect)
 
     def game_over(self):
