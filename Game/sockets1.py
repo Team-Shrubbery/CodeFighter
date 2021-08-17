@@ -17,6 +17,11 @@ class SocketConnection:
     def connect():
         print("We Connected")
 
+    @sio.event
+    def full(data):
+        print("There are already 2 players")
+        print("Message from server: ", data)
+
     def get_opponent_move(self):
         global opponent_move
         try:
@@ -56,6 +61,7 @@ class SocketConnection:
     def sendmove(data):
         # print("Send Move to Server: ", data)
         sio.emit("move", data)
+        pass
 
     @sio.event
     def disconnect():
@@ -64,4 +70,5 @@ class SocketConnection:
     @staticmethod
     def start_connection():
         print("we got to start connection")
-        sio.connect("http://localhost:8000")
+        # sio.connect("http://localhost:8000")
+        sio.connect("https://codefighter-server.herokuapp.com")
