@@ -8,6 +8,6 @@ class Ground(pygame.sprite.Sprite):
             pygame.sprite.Sprite.__init__(self, self.groups)
 
             self.image = pygame.image.load("resources/img/Ground.png")
-            self.rect = self.image.get_rect(center = (350, 350))
+            self.rect = self.image.get_rect(center = (350, WIN_HEIGHT - 100))
       
 
