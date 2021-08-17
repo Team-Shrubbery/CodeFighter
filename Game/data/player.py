@@ -24,8 +24,8 @@ class Player(pygame.sprite.Sprite):
         self.max_health = MAX_HEALTH
         self.healthbar_length = 300  # pixels
         self.health_ratio = self.max_health / self.healthbar_length
-        self.death_frame = 0
         self.dead = False
+        self.death_frame = 0
 
         # --------------- Position and Direction -------------
         self.vx = 0
@@ -45,9 +45,6 @@ class Player(pygame.sprite.Sprite):
         # self.cooldown = False
         self.attack_frame = 0
 
-
-
-
     def move(self):
         self.acc = vec(0, 0.5)
         if abs(self.vel.x) > 0.3:
@@ -66,11 +63,11 @@ class Player(pygame.sprite.Sprite):
             self.acc.x = ACC
             self.direction = "RIGHT"
         # if pressed_keys[K_SPACE]:
-            # self.game.sockets.sendmove("jump")
-            # self.jump()
+        # self.game.sockets.sendmove("jump")
+        # self.jump()
         # if pressed_keys[K_RETURN]:
-            # self.game.sockets.sendmove("attack")
-            # self.attack()
+        # self.game.sockets.sendmove("attack")
+        # self.attack()
 
         self.acc.x += self.vel.x * FRIC
         self.vel += self.acc
@@ -91,9 +88,6 @@ class Player(pygame.sprite.Sprite):
                 self.image = self.game.alucard_sprite_sheet.get_sprite(38, 179, 145, 125)
                 self.image.set_colorkey(MAGENTA)
                 self.image = pygame.transform.flip(self.image, True, False)
-
-
-        
 
     def gravity_check(self):
         # hits = collide with anything in the ground_group
@@ -253,13 +247,13 @@ class Player(pygame.sprite.Sprite):
 
     def animate_death(self):
         death_animation = [
-                self.game.alucard_sprite_sheet.get_sprite(57, 5008, self.width, self.height - 15),
-                self.game.alucard_sprite_sheet.get_sprite(214, 5005, 116, 113),
-                self.game.alucard_sprite_sheet.get_sprite(346, 5012, 117, 103),
-                self.game.alucard_sprite_sheet.get_sprite(60, 5118, 110, 104),
-                self.game.alucard_sprite_sheet.get_sprite(214, 5128, 120, 89),
-                self.game.alucard_sprite_sheet.get_sprite(363, 5119, 120, 102),
-            ]
+            self.game.alucard_sprite_sheet.get_sprite(57, 5008, self.width, self.height - 15),
+            self.game.alucard_sprite_sheet.get_sprite(214, 5005, 116, 113),
+            self.game.alucard_sprite_sheet.get_sprite(346, 5012, 117, 103),
+            self.game.alucard_sprite_sheet.get_sprite(60, 5118, 110, 104),
+            self.game.alucard_sprite_sheet.get_sprite(214, 5128, 120, 89),
+            self.game.alucard_sprite_sheet.get_sprite(363, 5119, 120, 102),
+        ]
 
         if self.cur_health == 0:
             self.image = death_animation[math.floor(self.death_frame)]
@@ -274,7 +268,7 @@ class Player(pygame.sprite.Sprite):
                 # self.acc = 0
 
     def character_name(self):
-            self.font = pygame.font.Font("resources/fonts/arial.ttf", 32)
-            text = self.font.render('Alucard', True, WHITE)
-            text_rect = text.get_rect(x=10,y=10)
-            self.game.screen.blit(text, text_rect)
+        self.font = pygame.font.Font("resources/fonts/arial.ttf", 32)
+        text = self.font.render("Alucard", True, WHITE)
+        text_rect = text.get_rect(x=10, y=10)
+        self.game.screen.blit(text, text_rect)

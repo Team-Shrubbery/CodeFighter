@@ -47,8 +47,6 @@ class Player2(pygame.sprite.Sprite):
         # self.cooldown = False
         self.attack_frame = 0
 
-
-
     def move(self):
         self.acc = vec(0, 0.5)
         if abs(self.vel.x) > 0.3:
@@ -119,13 +117,12 @@ class Player2(pygame.sprite.Sprite):
         self.run_ani = [
             self.game.fixer_sprite_sheet.get_sprite(536, 137, 85, 124),
             self.game.fixer_sprite_sheet.get_sprite(513, 261, 97, 125),
-            self.game.fixer_sprite_sheet.get_sprite(448, 134, 89, 124)
-            ]
+            self.game.fixer_sprite_sheet.get_sprite(448, 134, 89, 124),
+        ]
 
         if self.move_frame > 3:
             self.move_frame = 0
             return
-
 
         if self.jumping == False and self.running == True:
             if self.vel.x > 0:
@@ -160,7 +157,7 @@ class Player2(pygame.sprite.Sprite):
             self.game.fixer_sprite_sheet.get_sprite(0, 0, self.width + 20, self.height - 10),
             self.game.fixer_sprite_sheet.get_sprite(180, 562, self.width + 50, self.height - 10),
             self.game.fixer_sprite_sheet.get_sprite(340, 566, self.width + 20, self.height - 15),
-            self.game.fixer_sprite_sheet.get_sprite(256, 11, self.width + 30, self.height - 20)
+            self.game.fixer_sprite_sheet.get_sprite(256, 11, self.width + 30, self.height - 20),
         ]
 
         if self.attacking == True:
@@ -208,12 +205,18 @@ class Player2(pygame.sprite.Sprite):
     def basic_health(self):  # draws the health bar inside a box
         if self.cur_health <= (MAX_HEALTH / 2):
             if self.cur_health <= (MAX_HEALTH / 4):
-                pygame.draw.rect(self.game.screen, RED, ((WIN_WIDTH // 2)+85, 50, self.cur_health / self.health_ratio, 25))
+                pygame.draw.rect(
+                    self.game.screen, RED, ((WIN_WIDTH // 2) + 85, 50, self.cur_health / self.health_ratio, 25)
+                )
             else:
-                pygame.draw.rect(self.game.screen, YELLOW, ((WIN_WIDTH // 2)+85, 50, self.cur_health / self.health_ratio, 25))
+                pygame.draw.rect(
+                    self.game.screen, YELLOW, ((WIN_WIDTH // 2) + 85, 50, self.cur_health / self.health_ratio, 25)
+                )
         else:
-            pygame.draw.rect(self.game.screen, GREEN, ((WIN_WIDTH // 2)+85, 50, self.cur_health / self.health_ratio, 25))
-        pygame.draw.rect(self.game.screen, WHITE, ((WIN_WIDTH // 2)+85, 50, self.healthbar_length, 25), 2)
+            pygame.draw.rect(
+                self.game.screen, GREEN, ((WIN_WIDTH // 2) + 85, 50, self.cur_health / self.health_ratio, 25)
+            )
+        pygame.draw.rect(self.game.screen, WHITE, ((WIN_WIDTH // 2) + 85, 50, self.healthbar_length, 25), 2)
 
     def collide_attack(self):
         hits = pygame.sprite.spritecollide(self, self.game.attacks, False)
@@ -240,7 +243,7 @@ class Player2(pygame.sprite.Sprite):
             self.game.fixer_sprite_sheet.get_sprite(147, 1079, 122, 116),
             self.game.fixer_sprite_sheet.get_sprite(284, 1086, 122, 122),
             self.game.fixer_sprite_sheet.get_sprite(418, 1105, 152, 83),
-            ]
+        ]
 
         if self.cur_health == 0:
             self.image = death_animation[math.floor(self.death_frame)]
@@ -255,10 +258,11 @@ class Player2(pygame.sprite.Sprite):
                 # self.acc = 0
 
     def character_name(self):
-            self.font = pygame.font.Font("resources/fonts/arial.ttf", 32)
-            text = self.font.render('The Fixer', True, WHITE)
-            text_rect = text.get_rect(x=(WIN_WIDTH // 2)+250,y=10)
-            self.game.screen.blit(text, text_rect)
+        self.font = pygame.font.Font("resources/fonts/arial.ttf", 32)
+        text = self.font.render("The Fixer", True, WHITE)
+        text_rect = text.get_rect(x=(WIN_WIDTH // 2) + 250, y=10)
+        self.game.screen.blit(text, text_rect)
+
 
 # import pygame, math
 # from pygame.locals import *
@@ -281,7 +285,7 @@ class Player2(pygame.sprite.Sprite):
 #         # --------------- Position and Direction -------------
 #         self.vx = 0
 #         self.pos = vec((600, 240))
-        # self.pos = vec((self.game.sockets.get_player2_x(), 240))
+# self.pos = vec((self.game.sockets.get_player2_x(), 240))
 #         self.vel = vec(0, 0)
 #         self.acc = vec(0, 0)
 
