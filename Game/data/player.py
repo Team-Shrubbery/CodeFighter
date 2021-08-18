@@ -282,6 +282,6 @@ class Player(pygame.sprite.Sprite):
 
     def character_name(self):
             self.font = pygame.font.Font("resources/fonts/arial.ttf", 32)
-            text = self.font.render('Alucard', True, BLUE)
+            text = self.font.render('Alucard', True, WHITE)
             text_rect = text.get_rect(x=10,y=10)
             self.game.screen.blit(text, text_rect)
