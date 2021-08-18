@@ -86,23 +86,17 @@ class Game:
             if event.type == pygame.MOUSEBUTTONDOWN:
                 pass
 
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE:
-                    self.player.attacking = True
-                    self.player.attack_animation()
-                    if self.player.direction == "RIGHT":
-                        Attack(self, self.player.rect.x + 70, self.player.rect.y - 20)
-                    if self.player.direction == "LEFT":
-                        Attack(self, self.player.rect.x - 70, self.player.rect.y - 20)
-                    
-                if event.key == pygame.K_d:
-                    self.player2.attacking = True
-                    self.player2.animate_attack()
-                    if self.player2.direction == "RIGHT":
-                        Attack2(self, self.player2.rect.x + 70, self.player2.rect.y - 20)
-                    if self.player2.direction == "LEFT":
-                        Attack2(self, self.player2.rect.x - 70, self.player2.rect.y - 20)
+        if self.player.attacking == True:
+            if self.player.direction == "RIGHT":
+                Attack(self, self.player.rect.x + 70, self.player.rect.y - 20)
+            if self.player.direction == "LEFT":
+                Attack(self, self.player.rect.x - 70, self.player.rect.y - 20)
 
+        if self.player2.attacking == True:
+            if self.player2.direction == "RIGHT":
+                Attack2(self, self.player2.rect.x + 70, self.player2.rect.y - 20)
+            if self.player2.direction == "LEFT":
+                Attack2(self, self.player2.rect.x - 70, self.player2.rect.y - 20)
 
     # ------------------------ Update every sprite in the game/added to all_sprites group -------------------
     def update(self):
@@ -122,14 +116,14 @@ class Game:
         self.game_over()
         self.clock.tick(FPS)
         pygame.display.update()
-    
+
     def display_round(self):
         font = pygame.font.SysFont(None, 30)
-        img = font.render('ROUND', True, BLACK)
+        img = font.render("ROUND", True, BLACK)
         self.screen.blit(img, (365, 10))
         pygame.draw.circle(self.screen, RED, (400, 60), 30, 0)
         font2 = pygame.font.SysFont(None, 35)
-        img2 = font2.render((f'{self.round_counter}'), True, WHITE)
+        img2 = font2.render(f"{self.round_counter}", True, WHITE)
         self.screen.blit(img2, (392, 47))
 
     # -------------------------  Main game loop and update calls --------------
@@ -147,18 +141,18 @@ class Game:
         #     self.player_wins += 1
 
         self.font = pygame.font.Font("resources/fonts/arial.ttf", 28)
-        textstr = str(f'{self.player_wins} WINS')
+        textstr = str(f"{self.player_wins} WINS")
         text = self.font.render(textstr, True, BLACK)
-        text_rect = text.get_rect(x=10,y=80)
+        text_rect = text.get_rect(x=10, y=80)
         self.screen.blit(text, text_rect)
 
-        textstr = str(f'{self.player2_wins} WINS')
+        textstr = str(f"{self.player2_wins} WINS")
         text = self.font.render(textstr, True, BLACK)
-        text_rect = text.get_rect(x=(WIN_WIDTH // 2)+290,y=80)
+        text_rect = text.get_rect(x=(WIN_WIDTH // 2) + 290, y=80)
         self.screen.blit(text, text_rect)
 
     def game_over(self):
-        play_button = Button(WIN_WIDTH // 2 - 100,WIN_HEIGHT // 2,100,50, RED, BLACK, 'Play Again', 16)
+        play_button = Button(WIN_WIDTH // 2 - 100, WIN_HEIGHT // 2, 100, 50, RED, BLACK, "Play Again", 16)
         mouse_pos = pygame.mouse.get_pos()
         mouse_pressed = pygame.mouse.get_pressed()
 
@@ -168,19 +162,18 @@ class Game:
             self.screen.blit(play_button.image, play_button.rect)
 
         if self.player2.dead == True:
-            text = self.font.render('PLAYER ONE WINS', True, BLUE)
-            text_rect = text.get_rect(x=20,y=100)
+            text = self.font.render("PLAYER ONE WINS", True, BLUE)
+            text_rect = text.get_rect(x=20, y=100)
             self.screen.blit(text, text_rect)
 
         if self.player.dead == True:
-            text = self.font.render('PLAYER TWO WINS', True, BLUE)
-            text_rect = text.get_rect(x=20,y=100)
+            text = self.font.render("PLAYER TWO WINS", True, BLUE)
+            text_rect = text.get_rect(x=20, y=100)
             self.screen.blit(text, text_rect)
-
-
 
         if play_button.is_pressed(mouse_pos, mouse_pressed):
             g.new()
+
 
 # ------ starting the game --------
 
