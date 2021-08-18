@@ -84,27 +84,18 @@ class Game:
             if event.type == pygame.MOUSEBUTTONDOWN:
                 pass
 
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE:
-                    self.player.attacking = True
-                    self.player.attack_animation()
-                    if self.player.direction == "RIGHT":
-                        Attack(self, self.player.rect.x + 70, self.player.rect.y - 20)
-                    if self.player.direction == "LEFT":
-                        Attack(self, self.player.rect.x - 70, self.player.rect.y - 20)
-                    
-                if event.key == pygame.K_d:
-                    self.player2.attacking = True
-                    self.player2.animate_attack()
-                    if self.player2.direction == "RIGHT":
-                        Attack2(self, self.player2.rect.x + 70, self.player2.rect.y - 20)
-                    if self.player2.direction == "LEFT":
-                        Attack2(self, self.player2.rect.x - 70, self.player2.rect.y - 20)
-
-                    
-
-
-
+        if self.player.attacking == True:
+            if self.player.direction == "RIGHT":
+                Attack(self, self.player.rect.x + 70, self.player.rect.y - 20)
+            if self.player.direction == "LEFT":
+                Attack(self, self.player.rect.x - 70, self.player.rect.y - 20)
+            
+        if self.player2.attacking == True:
+            if self.player2.direction == "RIGHT":
+                Attack2(self, self.player2.rect.x + 70, self.player2.rect.y - 20)
+            if self.player2.direction == "LEFT":
+                Attack2(self, self.player2.rect.x - 70, self.player2.rect.y - 20)
+           
     # ------------------------ Update every sprite in the game/added to all_sprites group -------------------
     def update(self):
         self.all_sprites.update()
@@ -114,6 +105,7 @@ class Game:
         self.screen.fill(BLACK)
         self.screen.blit(self.background, (0, 0))
         self.all_sprites.draw(self.screen)
+
         self.player.basic_health()
         self.player.character_name()
         self.player2.basic_health()
