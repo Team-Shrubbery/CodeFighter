@@ -30,10 +30,17 @@ class Game:
         self.fixer_sprite_sheet = Spritesheet("resources/img/thefixer.png")
 
     def intro_screen(self):
-            intro = True
 
-            title = self.font.render('Code Fighter', True, BLUE)
-            title_rect = title.get_rect(x=10,y=10)
+        # font = pygame.font.SysFont(None, 30)
+        # img = font.render('ROUND', True, BLACK)
+        # self.screen.blit(img, (365, 10))
+
+            intro = True
+            title_font = pygame.font.SysFont(None, 60)
+            title = title_font.render('Code Fighter', True, BLUE)
+            
+            # title = self.font.render('Code Fighter', True, BLUE)
+            # title_rect = title.get_rect(x=10,y=10)
             play_button = Button(WIN_WIDTH // 2 - 100,WIN_HEIGHT // 2,100,50, RED, BLACK, 'Play', 32)
             quit_button = Button(WIN_WIDTH // 2 + 100 ,WIN_HEIGHT // 2,100,50, RED, BLACK, 'Exit', 32)
 
@@ -55,7 +62,8 @@ class Game:
                             self.playing = False
 
                         self.screen.fill(GREY)
-                        self.screen.blit(title, title_rect)
+                        # self.screen.blit(title, title_rect)
+                        self.screen.blit(title, (10, 10))
                         self.screen.blit(play_button.image, play_button.rect)
                         self.screen.blit(quit_button.image, quit_button.rect)
 
