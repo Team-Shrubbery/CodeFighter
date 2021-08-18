@@ -58,11 +58,11 @@ class Player2(pygame.sprite.Sprite):
 
         # # --------- keyboard input ----------------
         pressed_keys = pygame.key.get_pressed()
-        if pressed_keys[K_LEFT]:
+        if pressed_keys[K_a]:
             # self.game.sockets.sendmove("left")
             self.acc.x = -ACC
             self.direction = "LEFT"
-        if pressed_keys[K_RIGHT]:
+        if pressed_keys[K_s]:
             # self.game.sockets.sendmove("right")
             self.acc.x = ACC
             self.direction = "RIGHT"
@@ -79,12 +79,12 @@ class Player2(pygame.sprite.Sprite):
 
     def attack_keys(self):
         pressed_keys = pygame.key.get_pressed()
-        if pressed_keys[K_RETURN]:
+        if pressed_keys[K_d]:
             # self.game.sockets.sendmove("left")
             self.attacking = True
             self.attack_animation()
 
-        if pressed_keys == pygame.K_SPACE:
+        if pressed_keys == pygame.K_w:
             # self.game.sockets.sendmove("jump")
             self.jump()
             
