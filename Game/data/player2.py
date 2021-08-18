@@ -56,20 +56,14 @@ class Player2(pygame.sprite.Sprite):
 
         # # --------- keyboard input ----------------
         pressed_keys = pygame.key.get_pressed()
-        if pressed_keys[K_a]:
+        if pressed_keys[K_LEFT]:
             # self.game.sockets.sendmove("left")
             self.acc.x = -ACC
             self.direction = "LEFT"
-        if pressed_keys[K_s]:
+        if pressed_keys[K_RIGHT]:
             # self.game.sockets.sendmove("right")
             self.acc.x = ACC
             self.direction = "RIGHT"
-        # if pressed_keys[K_SPACE]:
-        #     self.game.sockets.sendmove("jump")
-        #     self.jump()
-        # if pressed_keys[K_RETURN]:
-        #     self.game.sockets.sendmove("attack")
-        #     self.attack()
 
         self.acc.x += self.vel.x * FRIC
         self.vel += self.acc
@@ -81,6 +75,17 @@ class Player2(pygame.sprite.Sprite):
             self.pos.x = WIN_WIDTH
         self.rect.midbottom = self.pos
 
+    def attack_keys(self):
+        pressed_keys = pygame.key.get_pressed()
+        if pressed_keys[K_RETURN]:
+            # self.game.sockets.sendmove("left")
+            self.attacking = True
+            self.attack_animation()
+
+        if pressed_keys == pygame.K_SPACE:
+            # self.game.sockets.sendmove("jump")
+            self.jump()
+            
     def player_in_place(self):
         if self.running == False and self.attacking == False:
             if self.direction == "RIGHT":
@@ -109,7 +114,8 @@ class Player2(pygame.sprite.Sprite):
         self.gravity_check()
         self.animate_move()
         self.collide_player()
-        self.animate_attack()
+        self.attack_keys()
+        # self.animate_attack()
         self.collide_attack()
         self.animate_death()
 
@@ -151,7 +157,7 @@ class Player2(pygame.sprite.Sprite):
         if self.attack_frame == 4:
             self.pos.x += 20
 
-    def animate_attack(self):
+    def attack_animation(self):
         attack_ani = [
             self.game.fixer_sprite_sheet.get_sprite(465, 416, self.width + 20, self.height - 10),
             self.game.fixer_sprite_sheet.get_sprite(0, 0, self.width + 20, self.height - 10),

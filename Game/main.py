@@ -27,27 +27,27 @@ class Game:
         self.fixer_sprite_sheet = Spritesheet("resources/img/thefixer.png")
 
     def intro_screen(self):
-        self.intro = True
+        intro = True
 
         title = self.font.render("Code Fighter", True, BLUE)
-        title_rect = title.get_rect(x=25, y=40)
-        play_button = Button(WIN_WIDTH // 2 - 150, WIN_HEIGHT // 2, 100, 50, RED, BLACK, "Play", 32)
-        quit_button = Button(WIN_WIDTH // 2 + 50, WIN_HEIGHT // 2, 100, 50, RED, BLACK, "Exit", 32)
+        title_rect = title.get_rect(x=10, y=10)
+        play_button = Button(WIN_WIDTH // 2 - 100, WIN_HEIGHT // 2, 100, 50, RED, BLACK, "Play", 32)
+        quit_button = Button(WIN_WIDTH // 2 + 100, WIN_HEIGHT // 2, 100, 50, RED, BLACK, "Exit", 32)
 
-        while self.intro:
+        while intro:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    self.intro = False
+                    intro = False
                     self.playing = False
 
                 mouse_pos = pygame.mouse.get_pos()
                 mouse_pressed = pygame.mouse.get_pressed()
 
                 if play_button.is_pressed(mouse_pos, mouse_pressed):
-                    self.intro = False
+                    intro = False
 
                 if quit_button.is_pressed(mouse_pos, mouse_pressed):
-                    self.intro = False
+                    intro = False
                     self.playing = False
 
                 self.screen.fill(GREY)
@@ -85,22 +85,17 @@ class Game:
             if event.type == pygame.MOUSEBUTTONDOWN:
                 pass
 
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE:
-                    self.player.attacking = True
-                    self.player.attack_animation()
-                    if self.player.direction == "RIGHT":
-                        Attack(self, self.player.rect.x + 70, self.player.rect.y - 20)
-                    if self.player.direction == "LEFT":
-                        Attack(self, self.player.rect.x - 70, self.player.rect.y - 20)
+        if self.player.attacking == True:
+            if self.player.direction == "RIGHT":
+                Attack(self, self.player.rect.x + 70, self.player.rect.y - 20)
+            if self.player.direction == "LEFT":
+                Attack(self, self.player.rect.x - 70, self.player.rect.y - 20)
 
-                if event.key == pygame.K_d:
-                    self.player2.attacking = True
-                    self.player2.animate_attack()
-                    if self.player2.direction == "RIGHT":
-                        Attack2(self, self.player2.rect.x + 70, self.player2.rect.y - 20)
-                    if self.player2.direction == "LEFT":
-                        Attack2(self, self.player2.rect.x - 70, self.player2.rect.y - 20)
+        if self.player2.attacking == True:
+            if self.player2.direction == "RIGHT":
+                Attack2(self, self.player2.rect.x + 70, self.player2.rect.y - 20)
+            if self.player2.direction == "LEFT":
+                Attack2(self, self.player2.rect.x - 70, self.player2.rect.y - 20)
 
     # ------------------------ Update every sprite in the game/added to all_sprites group -------------------
     def update(self):
@@ -152,7 +147,7 @@ class Game:
 
         textstr = str(f"{self.player2_wins} WINS")
         text = self.font.render(textstr, True, BLACK)
-        text_rect = text.get_rect(x=(WIN_WIDTH // 2) + 290, y=100)
+        text_rect = text.get_rect(x=(WIN_WIDTH // 2) + 290, y=80)
         self.screen.blit(text, text_rect)
 
     def game_over(self):
