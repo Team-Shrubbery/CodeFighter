@@ -31,44 +31,37 @@ class Game:
 
     def intro_screen(self):
 
-        # font = pygame.font.SysFont(None, 30)
-        # img = font.render('ROUND', True, BLACK)
-        # self.screen.blit(img, (365, 10))
+        intro = True
+        intro_background = pygame.image.load("resources/img/battleback3.png")
+        title_font = pygame.font.SysFont(None, 160)
+        title = title_font.render('Code Fighter', True, RED)
+        play_button = Button((WIN_WIDTH // 2 - 200),(WIN_HEIGHT // 2)+100,100,50, RED, BLACK, 'Play', 32)
+        quit_button = Button((WIN_WIDTH // 2 + 100) ,(WIN_HEIGHT // 2)+100,100,50, RED, BLACK, 'Exit', 32)
 
-            intro = True
-            title_font = pygame.font.SysFont(None, 60)
-            title = title_font.render('Code Fighter', True, BLUE)
-            
-            # title = self.font.render('Code Fighter', True, BLUE)
-            # title_rect = title.get_rect(x=10,y=10)
-            play_button = Button(WIN_WIDTH // 2 - 100,WIN_HEIGHT // 2,100,50, RED, BLACK, 'Play', 32)
-            quit_button = Button(WIN_WIDTH // 2 + 100 ,WIN_HEIGHT // 2,100,50, RED, BLACK, 'Exit', 32)
+        while intro:
+            for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        intro = False
+                        self.playing = False
 
+                    mouse_pos = pygame.mouse.get_pos()
+                    mouse_pressed = pygame.mouse.get_pressed()
 
-            while intro:
-                for event in pygame.event.get():
-                        if event.type == pygame.QUIT:
-                            intro = False
-                            self.playing = False
+                    if play_button.is_pressed(mouse_pos, mouse_pressed):
+                        intro = False
 
-                        mouse_pos = pygame.mouse.get_pos()
-                        mouse_pressed = pygame.mouse.get_pressed()
+                    if quit_button.is_pressed(mouse_pos, mouse_pressed):
+                        intro = False
+                        self.playing = False
 
-                        if play_button.is_pressed(mouse_pos, mouse_pressed):
-                            intro = False
+                    self.screen.fill(GREY)
+                    self.screen.blit(intro_background, (0,0))
+                    self.screen.blit(title, (55, 225)) # DONE
+                    self.screen.blit(play_button.image, play_button.rect)
+                    self.screen.blit(quit_button.image, quit_button.rect)
 
-                        if quit_button.is_pressed(mouse_pos, mouse_pressed):
-                            intro = False
-                            self.playing = False
-
-                        self.screen.fill(GREY)
-                        # self.screen.blit(title, title_rect)
-                        self.screen.blit(title, (10, 10))
-                        self.screen.blit(play_button.image, play_button.rect)
-                        self.screen.blit(quit_button.image, quit_button.rect)
-
-                        self.clock.tick(FPS)
-                        pygame.display.update()
+                    self.clock.tick(FPS)
+                    pygame.display.update()
 
     # ----------------------- Putting sprites into groups and instantiatiating objects
     def new(self):
@@ -110,9 +103,6 @@ class Game:
                     if self.player2.direction == "LEFT":
                         Attack2(self, self.player2.rect.x - 70, self.player2.rect.y - 20)
 
-                    
-
-
 
     # ------------------------ Update every sprite in the game/added to all_sprites group -------------------
     def update(self):
@@ -139,10 +129,8 @@ class Game:
         self.screen.blit(img, (365, 10))
         pygame.draw.circle(self.screen, RED, (400, 60), 30, 0)
         font2 = pygame.font.SysFont(None, 35)
-        img2 = font2.render(f'{self.round_counter}', True, WHITE)
+        img2 = font2.render((f'{self.round_counter}'), True, WHITE)
         self.screen.blit(img2, (392, 47))
-
-
 
     # -------------------------  Main game loop and update calls --------------
     def main(self):

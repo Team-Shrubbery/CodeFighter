@@ -6,6 +6,4 @@ Sprite sheets: [http://maximoff.alreadyread.net/SpriteSheets/](http://maximoff.a
 
 ## Background Images
 
-Intro Background: [http://superpowers-html5.com/](http://superpowers-html5.com/)
-Level Background: [Nidhoggn on OpenGameArt.org](https://opengameart.org/content/backgrounds-3)
-
+[Nidhoggn on OpenGameArt.org](https://opengameart.org/content/backgrounds-3)
