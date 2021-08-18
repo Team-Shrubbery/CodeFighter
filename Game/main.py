@@ -6,8 +6,9 @@ from data.player import *
 from data.ground import *
 from data.player2 import Player2
 from data.button import *
-from sockets1 import SocketConnection
 
+# from sockets1 import SocketConnection
+from network import Network
 
 # ------------------------ Main Game Class
 class Game:
@@ -30,6 +31,9 @@ class Game:
         self.player_group = pygame.sprite.LayeredUpdates()
         self.player2_group = pygame.sprite.LayeredUpdates()
         self.ground = Ground(self)
+
+        # print("--------------------------------")
+        # print("self.network_player: ", self.network_player)
         self.player = Player(self)
         self.player2 = Player2(self)
 
@@ -38,6 +42,8 @@ class Game:
         self.fighting = False
         self.player_wins = 0
         self.player2_wins = 0
+        network = Network()
+        network_player = network.getPlayer()
 
     def intro_screen(self):
 
@@ -110,6 +116,9 @@ class Game:
 
     # ------------------------ Update every sprite in the game/added to all_sprites group -------------------
     def update(self):
+        # send our position
+        # get opponent properties
+        # update opponent properties
         self.all_sprites.update()
 
     # ------------------------ Draws on the screen ---------------------------
@@ -182,7 +191,7 @@ class Game:
             self.screen.blit(text, text_rect)
 
         if play_button.is_pressed(mouse_pos, mouse_pressed):
-            g.new()
+            self.new()
 
 
 # ------ starting the game --------
