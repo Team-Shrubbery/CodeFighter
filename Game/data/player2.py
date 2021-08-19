@@ -38,13 +38,22 @@ class Player2(pygame.sprite.Sprite):
 
         # --------------- Position and Direction -------------
         self.vx = 0
+<<<<<<< HEAD
         # self.pos = vec((640, 240))
         self.pos = vec((self.game.sockets.get_player2_x(), 240))
+=======
+        self.pos = vec((640, 240))
+        # self.pos = vec((self.game.sockets.get_player1_x(), 240))
+>>>>>>> dec7264b5c8341e837e82c0a98899cec95dea517
         self.vel = vec(0, 0)
         self.acc = vec(0, 0)
 
         # -------------- Movement --------------
+<<<<<<< HEAD
         self.direction = self.game.sockets.get_player2_direction()
+=======
+        self.direction = "LEFT"
+>>>>>>> dec7264b5c8341e837e82c0a98899cec95dea517
         self.jumping = False
         self.running = False
         self.move_frame = 0
@@ -91,7 +100,10 @@ class Player2(pygame.sprite.Sprite):
 
         if opponent_move == "jump":
             self.jump()
+<<<<<<< HEAD
             self.game.sockets.reset_opponent_move()
+=======
+>>>>>>> dec7264b5c8341e837e82c0a98899cec95dea517
 
     def player_in_place(self):
         if self.running == False and self.attacking == False:
