@@ -9,6 +9,7 @@ from config import *
 class Player(pygame.sprite.Sprite):
     def __init__(self, game):
         self.game = game
+        character = self.game.sockets.get_player1_character()
         self.image = self.game.alucard_sprite_sheet.get_sprite(38, 179, 145, 125)
         self.image.set_colorkey(MAGENTA)
         self.rect = self.image.get_rect()
@@ -35,7 +36,7 @@ class Player(pygame.sprite.Sprite):
         self.acc = vec(0, 0)
 
         # -------------- Movement --------------
-        self.direction = "RIGHT"
+        self.direction = self.game.sockets.get_player1_direction()
         self.jumping = False
         self.running = False
         self.move_frame = 0
@@ -189,14 +190,6 @@ class Player(pygame.sprite.Sprite):
                     self.attacking = False
                     self.image = self.game.alucard_sprite_sheet.get_sprite(38, 179, 145, 125)
                     self.image.set_colorkey(MAGENTA)
-
-    # def player_hit(self):
-    #     hits = pygame.sprite.spritecollide(self, self.player, False)
-    #     if self.cooldown == False:
-    #         self.cooldown = True
-    #         pygame.time.set_timer(self.hit_cooldown, 1000)
-
-    #         pygame.display.update()
 
     def jump(self):
         self.rect.x += 1

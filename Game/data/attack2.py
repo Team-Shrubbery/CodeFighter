@@ -1,6 +1,7 @@
 import pygame, math
 from config import *
 
+
 class Attack2(pygame.sprite.Sprite):
     def __init__(self, game, x, y):
         self.game = game
@@ -18,7 +19,6 @@ class Attack2(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = self.x
         self.rect.y = self.y
-        
 
     def update(self):
         self.animate()
@@ -27,15 +27,16 @@ class Attack2(pygame.sprite.Sprite):
         direction = self.game.player.direction
 
         animations = [
-                    self.game.alucard_sprite_sheet.get_sprite(359, 4594, self.width, self.height),
-                    self.game.alucard_sprite_sheet.get_sprite(197, 4699, self.width + 30, self.height + 50),
-                    self.game.alucard_sprite_sheet.get_sprite(362, 4705, self.width + 30, self.height + 45),
-                    ]
+            self.game.alucard_sprite_sheet.get_sprite(359, 4594, self.width, self.height),
+            self.game.alucard_sprite_sheet.get_sprite(197, 4699, self.width + 30, self.height + 50),
+            self.game.alucard_sprite_sheet.get_sprite(362, 4705, self.width + 30, self.height + 45),
+        ]
 
         if self.game.player2.direction == "RIGHT":
             self.image = animations[math.floor(self.animation_loop)]
             self.image.set_colorkey(MAGENTA)
             self.image = pygame.transform.rotate(self.image, 90)
+            self.image = pygame.transform.flip(self.image, False, True)
             self.animation_loop += 0.15
             if self.animation_loop >= 3:
                 self.kill()
@@ -44,7 +45,7 @@ class Attack2(pygame.sprite.Sprite):
             self.image = animations[math.floor(self.animation_loop)]
             self.image.set_colorkey(MAGENTA)
             self.image = pygame.transform.rotate(self.image, 90)
-            self.image = pygame.transform.flip(self.image, True, False)
+            self.image = pygame.transform.flip(self.image, True, True)
             self.animation_loop += 0.15
             if self.animation_loop >= 3:
                 self.kill()

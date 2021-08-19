@@ -9,6 +9,8 @@ from config import *
 class Player2(pygame.sprite.Sprite):
     def __init__(self, game):
         self.game = game
+        character = self.game.sockets.get_player2_character()
+        print("player2 character from line 13: ", character)
         self.image = self.game.fixer_sprite_sheet.get_sprite(130, 5, 100, 120)
         self.image.set_colorkey(MAGENTA2)
         self.rect = self.image.get_rect()
@@ -24,8 +26,6 @@ class Player2(pygame.sprite.Sprite):
         self.max_health = MAX_HEALTH
         self.healthbar_length = 300  # pixels
         self.health_ratio = self.max_health / self.healthbar_length
-
-        # -------------- Character Death ------------------
         self.dead = False
         self.death_frame = 0
 
@@ -37,7 +37,7 @@ class Player2(pygame.sprite.Sprite):
         self.acc = vec(0, 0)
 
         # -------------- Movement --------------
-        self.direction = "LEFT"
+        self.direction = self.game.sockets.get_player2_direction()
         self.jumping = False
         self.running = False
         self.move_frame = 0
@@ -115,7 +115,7 @@ class Player2(pygame.sprite.Sprite):
         self.animate_move()
         self.collide_player()
         self.attack_keys()
-        # self.animate_attack()
+        self.attack_animation()
         self.collide_attack()
         self.animate_death()
 
