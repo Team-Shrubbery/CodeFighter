@@ -9,8 +9,12 @@ from config import *
 class Player(pygame.sprite.Sprite):
     def __init__(self, game):
         self.game = game
+
+        self.our_character = self.game.sockets.get_our_character()
+        print("We are: ", self.our_character)
         self.image = self.game.alucard_sprite_sheet.get_sprite(38, 179, 145, 125)
         self.image.set_colorkey(MAGENTA)
+
         self.rect = self.image.get_rect()
         self.groups = self.game.all_sprites, self.game.player_group
         pygame.sprite.Sprite.__init__(self, self.groups)
@@ -24,8 +28,8 @@ class Player(pygame.sprite.Sprite):
         self.max_health = MAX_HEALTH
         self.healthbar_length = 300  # pixels
         self.health_ratio = self.max_health / self.healthbar_length
-        self.death_frame = 0
         self.dead = False
+        self.death_frame = 0
 
         # --------------- Position and Direction -------------
         self.vx = 0
@@ -35,6 +39,7 @@ class Player(pygame.sprite.Sprite):
         self.acc = vec(0, 0)
 
         # -------------- Movement --------------
+        # self.direction = self.game.sockets.get_player1_direction()
         self.direction = "RIGHT"
         self.jumping = False
         self.running = False
@@ -45,9 +50,6 @@ class Player(pygame.sprite.Sprite):
         # self.cooldown = False
         self.attack_frame = 0
 
-
-
-
     def move(self):
         self.acc = vec(0, 0.5)
         if abs(self.vel.x) > 0.3:
@@ -55,38 +57,68 @@ class Player(pygame.sprite.Sprite):
         else:
             self.running = False
 
-        # --------- keyboard input ----------------
         pressed_keys = pygame.key.get_pressed()
-        if pressed_keys[K_LEFT]:
-            # self.game.sockets.sendmove("left")
-            self.acc.x = -ACC
-            self.direction = "LEFT"
-        if pressed_keys[K_RIGHT]:
-            # self.game.sockets.sendmove("right")
-            self.acc.x = ACC
-            self.direction = "RIGHT"
+        if self.our_character == "Alucard":
+            if pressed_keys[K_LEFT]:
+                self.game.sockets.sendmove("left")
+                self.acc.x = -ACC
+                self.direction = "LEFT"
+            if pressed_keys[K_RIGHT]:
+                self.game.sockets.sendmove("right")
+                self.acc.x = ACC
+                self.direction = "RIGHT"
 
-        self.acc.x += self.vel.x * FRIC
-        self.vel += self.acc
-        self.pos += self.vel + 0.5 * self.acc
+            self.acc.x += self.vel.x * FRIC
+            self.vel += self.acc
+            self.pos += self.vel + 0.5 * self.acc
 
-        if self.pos.x > WIN_WIDTH:
-            self.pos.x = 0
-        if self.pos.x < 0:
-            self.pos.x = WIN_WIDTH
-        self.rect.midbottom = self.pos
+            if self.pos.x > WIN_WIDTH:
+                self.pos.x = 0
+            if self.pos.x < 0:
+                self.pos.x = WIN_WIDTH
+            self.rect.midbottom = self.pos
+        else:
+            opponent_move = self.game.sockets.get_opponent_move()
+            if opponent_move == "left" or pressed_keys[K_a]:
+                self.acc.x = -ACC
+                self.direction = "LEFT"
+                self.game.sockets.reset_opponent_move()
+            if opponent_move == "right" or pressed_keys[K_s]:
+                self.acc.x = ACC
+                self.direction = "RIGHT"
+                self.game.sockets.reset_opponent_move()
 
+            self.acc.x += self.vel.x * FRIC
+            self.vel += self.acc
+            self.pos += self.vel + 0.5 * self.acc
+
+            if self.pos.x > WIN_WIDTH:
+                self.pos.x = 0
+            if self.pos.x < 0:
+                self.pos.x = WIN_WIDTH
+            self.rect.midbottom = self.pos
 
     def attack_keys(self):
-        pressed_keys = pygame.key.get_pressed()
-        if pressed_keys[K_RETURN]:
-            # self.game.sockets.sendmove("left")
-            self.attacking = True
-            self.attack_animation()
 
-        if pressed_keys == pygame.K_SPACE:
-            # self.game.sockets.sendmove("jump")
-            self.jump()
+        pressed_keys = pygame.key.get_pressed()
+        if self.our_character == "Alucard":
+            if pressed_keys[K_RETURN]:
+                self.game.sockets.sendmove("attack")
+                self.attacking = True
+                self.attack_animation()
+
+            if pressed_keys == pygame.K_SPACE:
+                self.game.sockets.sendmove("jump")
+                self.jump()
+        else:
+            opponent_move = self.game.sockets.get_opponent_move()
+            if opponent_move == "attack" or pressed_keys[K_d]:
+                self.attacking = True
+                self.attack_animation()
+                self.game.sockets.reset_opponent_move()
+
+            if opponent_move == "jump" or pressed_keys[K_w]:
+                self.jump()
 
     def player_in_place(self):
         if self.running == False and self.attacking == False:
@@ -97,9 +129,6 @@ class Player(pygame.sprite.Sprite):
                 self.image = self.game.alucard_sprite_sheet.get_sprite(38, 179, 145, 125)
                 self.image.set_colorkey(MAGENTA)
                 self.image = pygame.transform.flip(self.image, True, False)
-
-
-        
 
     def gravity_check(self):
         # hits = collide with anything in the ground_group
@@ -197,14 +226,6 @@ class Player(pygame.sprite.Sprite):
                     self.image = self.game.alucard_sprite_sheet.get_sprite(38, 179, 145, 125)
                     self.image.set_colorkey(MAGENTA)
 
-    # def player_hit(self):
-    #     hits = pygame.sprite.spritecollide(self, self.player, False)
-    #     if self.cooldown == False:
-    #         self.cooldown = True
-    #         pygame.time.set_timer(self.hit_cooldown, 1000)
-
-    #         pygame.display.update()
-
     def jump(self):
         self.rect.x += 1
         hits = pygame.sprite.spritecollide(self, self.game.ground_group, False)
@@ -260,13 +281,13 @@ class Player(pygame.sprite.Sprite):
 
     def animate_death(self):
         death_animation = [
-                self.game.alucard_sprite_sheet.get_sprite(57, 5008, self.width, self.height - 15),
-                self.game.alucard_sprite_sheet.get_sprite(214, 5005, 116, 113),
-                self.game.alucard_sprite_sheet.get_sprite(346, 5012, 117, 103),
-                self.game.alucard_sprite_sheet.get_sprite(60, 5118, 110, 104),
-                self.game.alucard_sprite_sheet.get_sprite(214, 5128, 120, 89),
-                self.game.alucard_sprite_sheet.get_sprite(363, 5119, 120, 102),
-            ]
+            self.game.alucard_sprite_sheet.get_sprite(57, 5008, self.width, self.height - 15),
+            self.game.alucard_sprite_sheet.get_sprite(214, 5005, 116, 113),
+            self.game.alucard_sprite_sheet.get_sprite(346, 5012, 117, 103),
+            self.game.alucard_sprite_sheet.get_sprite(60, 5118, 110, 104),
+            self.game.alucard_sprite_sheet.get_sprite(214, 5128, 120, 89),
+            self.game.alucard_sprite_sheet.get_sprite(363, 5119, 120, 102),
+        ]
 
         if self.cur_health == 0:
             self.image = death_animation[math.floor(self.death_frame)]
@@ -281,7 +302,7 @@ class Player(pygame.sprite.Sprite):
                 # self.acc = 0
 
     def character_name(self):
-            self.font = pygame.font.Font("resources/fonts/arial.ttf", 32)
-            text = self.font.render('Alucard', True, WHITE)
-            text_rect = text.get_rect(x=10,y=10)
-            self.game.screen.blit(text, text_rect)
+        self.font = pygame.font.Font("resources/fonts/arial.ttf", 32)
+        text = self.font.render("Alucard", True, WHITE)
+        text_rect = text.get_rect(x=10, y=10)
+        self.game.screen.blit(text, text_rect)

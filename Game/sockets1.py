@@ -5,8 +5,7 @@ class SocketConnection:
 
     global sio
     global opponent_move
-    global position1
-    global position2
+    global character
 
     sio = socketio.Client()
 
@@ -31,20 +30,14 @@ class SocketConnection:
     @sio.event
     def position(data):
         print("We are: ", data)
-        global position1
-        global position2
+        global character
         if data == "Player1":
-            position1 = 100
-            position2 = 580
-        else:
-            position1 = 580
-            position2 = 100
+            character = "Alucard"
+        elif data == "Player2":
+            character = "Fixer"
 
-    def get_player1_x(self):
-        return position1
-
-    def get_player2_x(self):
-        return position2
+    def get_our_character(self):
+        return character
 
     @sio.event
     def receive(data):
@@ -63,5 +56,6 @@ class SocketConnection:
 
     @staticmethod
     def start_connection():
-        print("we got to start connection")
-        sio.connect("http://localhost:8000")
+        # print("we got to start connection")
+        # sio.connect("http://localhost:8000")
+        sio.connect("https://codefighter-server.herokuapp.com")
