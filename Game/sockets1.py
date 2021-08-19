@@ -5,12 +5,7 @@ class SocketConnection:
 
     global sio
     global opponent_move
-    global position1
-    global position2
-    global direction1
-    global direction2
-    global character1
-    global character2
+    global character
 
     sio = socketio.Client()
 
@@ -35,44 +30,14 @@ class SocketConnection:
     @sio.event
     def position(data):
         print("We are: ", data)
-        global position1
-        global position2
-        global direction1
-        global direction2
-        global character1
-        global character2
+        global character
         if data == "Player1":
-            position1 = 100
-            direction1 = "RIGHT"
-            character1 = "Alucard"
-            position2 = 660
-            direction2 = "LEFT"
-            character2 = "Fixer"
+            character = "Alucard"
         elif data == "Player2":
-            position1 = 660
-            direction1 = "LEFT"
-            character1 = "Fixer"
-            position2 = 100
-            direction2 = "RIGHT"
-            character2 = "Alucard"
+            character = "Fixer"
 
-    def get_player1_x(self):
-        return position1
-
-    def get_player1_direction(self):
-        return direction1
-
-    def get_player2_x(self):
-        return position2
-
-    def get_player2_direction(self):
-        return direction2
-
-    def get_player1_character(self):
-        return character1
-
-    def get_player2_character(self):
-        return character2
+    def get_our_character(self):
+        return character
 
     @sio.event
     def receive(data):

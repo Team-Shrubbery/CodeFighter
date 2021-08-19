@@ -179,8 +179,6 @@ class Game:
 # ------ starting the game --------
 
 g = Game()
-result = g.fighting
-print("result: ", result)
 g.intro_screen()
 g.new()
 
