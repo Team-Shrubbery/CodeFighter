@@ -56,8 +56,8 @@ class Player2(pygame.sprite.Sprite):
         else:
             self.running = False
 
+        pressed_keys = pygame.key.get_pressed()
         if self.our_character == "Fixer":
-            pressed_keys = pygame.key.get_pressed()
             if pressed_keys[K_LEFT]:
                 self.game.sockets.sendmove("left")
                 self.acc.x = -ACC
@@ -78,11 +78,11 @@ class Player2(pygame.sprite.Sprite):
             self.rect.midbottom = self.pos
         else:
             opponent_move = self.game.sockets.get_opponent_move()
-            if opponent_move == "left":
+            if opponent_move == "left" or pressed_keys[K_a]:
                 self.acc.x = -ACC
                 self.direction = "LEFT"
                 self.game.sockets.reset_opponent_move()
-            if opponent_move == "right":
+            if opponent_move == "right" or pressed_keys[K_s]:
                 self.acc.x = ACC
                 self.direction = "RIGHT"
                 self.game.sockets.reset_opponent_move()
@@ -99,8 +99,8 @@ class Player2(pygame.sprite.Sprite):
 
     def attack_keys(self):
 
+        pressed_keys = pygame.key.get_pressed()
         if self.our_character == "Fixer":
-            pressed_keys = pygame.key.get_pressed()
             if pressed_keys[K_RETURN]:
                 self.game.sockets.sendmove("attack")
                 self.attacking = True
@@ -111,12 +111,12 @@ class Player2(pygame.sprite.Sprite):
                 self.jump()
         else:
             opponent_move = self.game.sockets.get_opponent_move()
-            if opponent_move == "attack":
+            if opponent_move == "attack" or pressed_keys[K_d]:
                 self.attacking = True
                 self.attack_animation()
                 self.game.sockets.reset_opponent_move()
 
-            if opponent_move == "jump":
+            if opponent_move == "jump" or pressed_keys[K_w]:
                 self.jump()
 
     def player_in_place(self):
