@@ -42,7 +42,7 @@ class Attack(pygame.sprite.Sprite):
             self.image.set_colorkey(MAGENTA)
             self.image = pygame.transform.rotate(self.image, 90)
             self.image = pygame.transform.flip(self.image, False, True)
-            self.animation_loop += 0.15
+            self.animation_loop += 0.3
             if self.animation_loop >= 3:
                 self.kill()
 
@@ -51,6 +51,6 @@ class Attack(pygame.sprite.Sprite):
             self.image.set_colorkey(MAGENTA)
             self.image = pygame.transform.rotate(self.image, 90)
             self.image = pygame.transform.flip(self.image, True, True)
-            self.animation_loop += 0.15
+            self.animation_loop += 0.3
             if self.animation_loop >= 3:
                 self.kill()
