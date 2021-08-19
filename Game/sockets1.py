@@ -57,4 +57,5 @@ class SocketConnection:
     @staticmethod
     def start_connection():
         # print("we got to start connection")
-        sio.connect("http://localhost:8000")
+        # sio.connect("http://localhost:8000")
+        sio.connect("https://codefighter-server.herokuapp.com")
