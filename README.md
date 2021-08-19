@@ -1,4 +1,4 @@
-# Snake Arcade
+# CodeFighter
 
 *Authors*:
 
@@ -12,30 +12,53 @@ Michael Ryan | [LinkedIn](https://www.linkedin.com/in/michaelanthonyryan/) | [Gi
 
 Prabin Singh | [GitHub](https://github.com/prabin544)
 
+## Project Organization
+
+[Code Fighters Trello Board](https://trello.com/b/pkyCF5nn/python-arcade)
+
 ---
 
 ## Overview
 
-Snake Arcade is an interactive virtual arcade with a selection of games to choose from.
+CodeFighter is a "best 2-out-of-3" style fighting game where opponents will battle in a 3-round fight. Our vision is to create an entertaining multiplayer experience to allow users to battle online. It solves the pain point of ever-present boredom, and what better way than to play a game with someone else! Our product provides an opportunity for social interaction in a socially-distant world.
 
 ---
 
 ## Features
 
-**Game One**:
+---
 
-**Game Two**:
+## Wireframes
 
-**Game Three**:
+![Code Fighter Wireframe](CodeFighterWireframe.png)
 
 ---
 
-## Stretch Goals
+## Domain Modeling
 
-* Multiplayer functionality with Socket.io
+![Code Fighter Domain Model](CodeFighterDomainModel.png)
 
-* Saving player high scores to a database and displaying on screen
 
-* Additional games
+---
 
-* More complex game
+## Credits
+
+[Pygame Fighter Tutorial](https://coderslegacy.com/python/pygame-rpg-game-tutorial/)
+
+[Character Sprite Sheets](http://maximoff.alreadyread.net/SpriteSheets/)
+
+[Program to find spritesheets](https://getspritexy.netlify.app/)
+
+[Pygame RPG Tutorial Code](https://www.youtube.com/channel/UChB6no22fVJ-6dGNTfbb05w)
+
+[Sockets](https://www.techwithtim.net/tutorials/python-online-game-tutorial/)
+
+---
+
+## Keyboard
+
+- Left and Right arrow keys to move
+- Spacebar to jump
+- Return to attack
+
+---

@@ -1,0 +1,28 @@
+import pygame
+
+vec = pygame.math.Vector2
+
+WIN_WIDTH = 800
+WIN_HEIGHT = 600
+
+ACC = 0.3
+FRIC = -0.10
+
+FPS = 60
+
+COUNT = 0
+
+RED = (255, 0, 0)
+GREEN = (0, 255, 0)
+BLUE = (0, 0, 255)
+BLACK = (0, 0, 0)
+WHITE = (255, 255, 255)
+MAGENTA = (255, 0, 255)
+MAGENTA2 = (247, 16, 231)
+YELLOW = (255, 255, 0)
+GREY = (220,220,220)
+
+GROUND_LAYER = 1
+
+MAX_HEALTH = 1000
+CUR_HEALTH = MAX_HEALTH
