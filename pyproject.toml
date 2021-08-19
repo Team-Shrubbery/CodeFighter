@@ -9,6 +9,8 @@ python = "^3.9"
 pygame = "^2.0.1"
 black = "^21.7b0"
 python-socketio = {extras = ["client"], version = "^5.4.0"}
+pytest = "^6.2.4"
+coverage = "^5.5"
 
 [tool.poetry.dev-dependencies]
 

@@ -66,12 +66,6 @@ class Player2(pygame.sprite.Sprite):
             # self.game.sockets.sendmove("right")
             self.acc.x = ACC
             self.direction = "RIGHT"
-        # if pressed_keys[K_SPACE]:
-        #     self.game.sockets.sendmove("jump")
-        #     self.jump()
-        # if pressed_keys[K_RETURN]:
-        #     self.game.sockets.sendmove("attack")
-        #     self.attack()
 
         self.acc.x += self.vel.x * FRIC
         self.vel += self.acc
@@ -83,6 +77,17 @@ class Player2(pygame.sprite.Sprite):
             self.pos.x = WIN_WIDTH
         self.rect.midbottom = self.pos
 
+    def attack_keys(self):
+        pressed_keys = pygame.key.get_pressed()
+        if pressed_keys[K_d]:
+            # self.game.sockets.sendmove("left")
+            self.attacking = True
+            self.attack_animation()
+
+        if pressed_keys == pygame.K_w:
+            # self.game.sockets.sendmove("jump")
+            self.jump()
+            
     def player_in_place(self):
         if self.running == False and self.attacking == False:
             if self.direction == "RIGHT":
@@ -111,7 +116,8 @@ class Player2(pygame.sprite.Sprite):
         self.gravity_check()
         self.animate_move()
         self.collide_player()
-        self.animate_attack()
+        self.attack_keys()
+        # self.animate_attack()
         self.collide_attack()
         self.animate_death()
 
@@ -154,7 +160,7 @@ class Player2(pygame.sprite.Sprite):
         if self.attack_frame == 4:
             self.pos.x += 20
 
-    def animate_attack(self):
+    def attack_animation(self):
         attack_ani = [
             self.game.fixer_sprite_sheet.get_sprite(465, 416, self.width + 20, self.height - 10),
             self.game.fixer_sprite_sheet.get_sprite(0, 0, self.width + 20, self.height - 10),
@@ -208,12 +214,12 @@ class Player2(pygame.sprite.Sprite):
     def basic_health(self):  # draws the health bar inside a box
         if self.cur_health <= (MAX_HEALTH / 2):
             if self.cur_health <= (MAX_HEALTH / 4):
-                pygame.draw.rect(self.game.screen, RED, (WIN_WIDTH // 2, 50, self.cur_health / self.health_ratio, 25))
+                pygame.draw.rect(self.game.screen, RED, ((WIN_WIDTH // 2)+85, 50, self.cur_health / self.health_ratio, 25))
             else:
-                pygame.draw.rect(self.game.screen, YELLOW, (WIN_WIDTH // 2, 50, self.cur_health / self.health_ratio, 25))
+                pygame.draw.rect(self.game.screen, YELLOW, ((WIN_WIDTH // 2)+85, 50, self.cur_health / self.health_ratio, 25))
         else:
-            pygame.draw.rect(self.game.screen, GREEN, (WIN_WIDTH // 2, 50, self.cur_health / self.health_ratio, 25))
-        pygame.draw.rect(self.game.screen, WHITE, (WIN_WIDTH // 2, 50, self.healthbar_length, 25), 2)
+            pygame.draw.rect(self.game.screen, GREEN, ((WIN_WIDTH // 2)+85, 50, self.cur_health / self.health_ratio, 25))
+        pygame.draw.rect(self.game.screen, WHITE, ((WIN_WIDTH // 2)+85, 50, self.healthbar_length, 25), 2)
 
     def collide_attack(self):
         hits = pygame.sprite.spritecollide(self, self.game.attacks, False)
@@ -256,8 +262,8 @@ class Player2(pygame.sprite.Sprite):
 
     def character_name(self):
             self.font = pygame.font.Font("resources/fonts/arial.ttf", 32)
-            text = self.font.render('The Fixer', True, BLUE)
-            text_rect = text.get_rect(x=WIN_WIDTH // 2,y=10)
+            text = self.font.render('The Fixer', True, WHITE)
+            text_rect = text.get_rect(x=(WIN_WIDTH // 2)+250,y=10)
             self.game.screen.blit(text, text_rect)
 
 # import pygame, math
