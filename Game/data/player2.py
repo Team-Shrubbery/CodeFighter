@@ -31,13 +31,13 @@ class Player2(pygame.sprite.Sprite):
 
         # --------------- Position and Direction -------------
         self.vx = 0
-        self.pos = vec((500, 240))
-        # self.pos = vec((self.game.sockets.get_player1_x(), 240))
+        # self.pos = vec((640, 240))
+        self.pos = vec((self.game.sockets.get_player2_x(), 240))
         self.vel = vec(0, 0)
         self.acc = vec(0, 0)
 
         # -------------- Movement --------------
-        self.direction = "RIGHT"
+        self.direction = "LEFT"
         self.jumping = False
         self.running = False
         self.move_frame = 0
@@ -55,15 +55,15 @@ class Player2(pygame.sprite.Sprite):
             self.running = False
 
         # # --------- keyboard input ----------------
-        pressed_keys = pygame.key.get_pressed()
-        if pressed_keys[K_a]:
-            # self.game.sockets.sendmove("left")
+        opponent_move = self.game.sockets.get_opponent_move()
+        if opponent_move == "left":
             self.acc.x = -ACC
             self.direction = "LEFT"
-        if pressed_keys[K_s]:
-            # self.game.sockets.sendmove("right")
+            self.game.sockets.reset_opponent_move()
+        if opponent_move == "right":
             self.acc.x = ACC
             self.direction = "RIGHT"
+            self.game.sockets.reset_opponent_move()
 
         self.acc.x += self.vel.x * FRIC
         self.vel += self.acc
@@ -76,16 +76,16 @@ class Player2(pygame.sprite.Sprite):
         self.rect.midbottom = self.pos
 
     def attack_keys(self):
-        pressed_keys = pygame.key.get_pressed()
-        if pressed_keys[K_d]:
-            # self.game.sockets.sendmove("left")
+        opponent_move = self.game.sockets.get_opponent_move()
+        if opponent_move == "attack":
             self.attacking = True
             self.attack_animation()
+            self.game.sockets.reset_opponent_move()
 
-        if pressed_keys == pygame.K_w:
-            # self.game.sockets.sendmove("jump")
+        if opponent_move == "jump":
             self.jump()
-            
+            self.game.sockets.reset_opponent_move()
+
     def player_in_place(self):
         if self.running == False and self.attacking == False:
             if self.direction == "RIGHT":

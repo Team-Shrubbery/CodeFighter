@@ -29,8 +29,8 @@ class Player(pygame.sprite.Sprite):
 
         # --------------- Position and Direction -------------
         self.vx = 0
-        self.pos = vec((100, 240))
-        # self.pos = vec((self.game.sockets.get_player1_x(), 240))
+        # self.pos = vec((100, 240))
+        self.pos = vec((self.game.sockets.get_player1_x(), 240))
         self.vel = vec(0, 0)
         self.acc = vec(0, 0)
 
@@ -55,11 +55,11 @@ class Player(pygame.sprite.Sprite):
         # --------- keyboard input ----------------
         pressed_keys = pygame.key.get_pressed()
         if pressed_keys[K_LEFT]:
-            # self.game.sockets.sendmove("left")
+            self.game.sockets.sendmove("left")
             self.acc.x = -ACC
             self.direction = "LEFT"
         if pressed_keys[K_RIGHT]:
-            # self.game.sockets.sendmove("right")
+            self.game.sockets.sendmove("right")
             self.acc.x = ACC
             self.direction = "RIGHT"
 
@@ -76,12 +76,12 @@ class Player(pygame.sprite.Sprite):
     def attack_keys(self):
         pressed_keys = pygame.key.get_pressed()
         if pressed_keys[K_RETURN]:
-            # self.game.sockets.sendmove("left")
+            self.game.sockets.sendmove("attack")
             self.attacking = True
             self.attack_animation()
 
         if pressed_keys == pygame.K_SPACE:
-            # self.game.sockets.sendmove("jump")
+            self.game.sockets.sendmove("jump")
             self.jump()
 
     def player_in_place(self):

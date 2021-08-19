@@ -35,9 +35,9 @@ class SocketConnection:
         global position2
         if data == "Player1":
             position1 = 100
-            position2 = 580
+            position2 = 640
         else:
-            position1 = 580
+            position1 = 640
             position2 = 100
 
     def get_player1_x(self):

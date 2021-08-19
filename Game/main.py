@@ -13,6 +13,8 @@ from sockets1 import SocketConnection
 class Game:
     def __init__(self):
         pygame.init()
+        self.sockets = SocketConnection()
+        self.sockets.start_connection()
         self.screen = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
         pygame.display.set_caption("Code Fighter")
         self.font = pygame.font.Font("resources/fonts/arial.ttf", 128)
@@ -31,39 +33,37 @@ class Game:
         intro = True
         intro_background = pygame.image.load("resources/img/battleback3.png")
         title_font = pygame.font.SysFont(None, 160)
-        title = title_font.render('Code Fighter', True, RED)
-        play_button = Button((WIN_WIDTH // 2 - 200),(WIN_HEIGHT // 2)+100,100,50, RED, BLACK, 'Play', 32)
-        quit_button = Button((WIN_WIDTH // 2 + 100) ,(WIN_HEIGHT // 2)+100,100,50, RED, BLACK, 'Exit', 32)
+        title = title_font.render("Code Fighter", True, RED)
+        play_button = Button((WIN_WIDTH // 2 - 200), (WIN_HEIGHT // 2) + 100, 100, 50, RED, BLACK, "Play", 32)
+        quit_button = Button((WIN_WIDTH // 2 + 100), (WIN_HEIGHT // 2) + 100, 100, 50, RED, BLACK, "Exit", 32)
 
         while intro:
             for event in pygame.event.get():
-                    if event.type == pygame.QUIT:
-                        intro = False
-                        self.playing = False
+                if event.type == pygame.QUIT:
+                    intro = False
+                    self.playing = False
 
-                    mouse_pos = pygame.mouse.get_pos()
-                    mouse_pressed = pygame.mouse.get_pressed()
+                mouse_pos = pygame.mouse.get_pos()
+                mouse_pressed = pygame.mouse.get_pressed()
 
-                    if play_button.is_pressed(mouse_pos, mouse_pressed):
-                        intro = False
+                if play_button.is_pressed(mouse_pos, mouse_pressed):
+                    intro = False
 
-                    if quit_button.is_pressed(mouse_pos, mouse_pressed):
-                        intro = False
-                        self.playing = False
+                if quit_button.is_pressed(mouse_pos, mouse_pressed):
+                    intro = False
+                    self.playing = False
 
-                    self.screen.fill(GREY)
-                    self.screen.blit(intro_background, (0,0))
-                    self.screen.blit(title, (55, 225)) # DONE
-                    self.screen.blit(play_button.image, play_button.rect)
-                    self.screen.blit(quit_button.image, quit_button.rect)
+                self.screen.fill(GREY)
+                self.screen.blit(intro_background, (0, 0))
+                self.screen.blit(title, (55, 225))  # DONE
+                self.screen.blit(play_button.image, play_button.rect)
+                self.screen.blit(quit_button.image, quit_button.rect)
 
-                    self.clock.tick(FPS)
-                    pygame.display.update()
+                self.clock.tick(FPS)
+                pygame.display.update()
 
     # ----------------------- Putting sprites into groups and instantiatiating objects
     def new(self):
-        # # self.sockets = SocketConnection()
-        # self.sockets.start_connection()
         self.playing = True
         self.round_counter = 1
         self.all_sprites = pygame.sprite.LayeredUpdates()
