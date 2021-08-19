@@ -48,7 +48,7 @@ class SocketConnection:
             position2 = 660
             direction2 = "LEFT"
             character2 = "Fixer"
-        else:
+        elif data == "Player2":
             position1 = 660
             direction1 = "LEFT"
             character1 = "Fixer"

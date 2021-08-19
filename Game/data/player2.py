@@ -9,10 +9,17 @@ from config import *
 class Player2(pygame.sprite.Sprite):
     def __init__(self, game):
         self.game = game
-        character = self.game.sockets.get_player2_character()
-        print("player2 character from line 13: ", character)
-        self.image = self.game.fixer_sprite_sheet.get_sprite(130, 5, 100, 120)
-        self.image.set_colorkey(MAGENTA2)
+
+        self.opponent_character = self.game.sockets.get_player2_character()
+        if self.opponent_character == "Alucard":
+            print("this got triggered line 15 player2")
+            self.image = self.game.alucard_sprite_sheet.get_sprite(38, 179, 145, 125)
+            self.image.set_colorkey(MAGENTA)
+        else:
+            print("this got triggered line 19 player2")
+            self.image = self.game.fixer_sprite_sheet.get_sprite(130, 5, 100, 120)
+            self.image.set_colorkey(MAGENTA2)
+
         self.rect = self.image.get_rect()
         self.groups = self.game.all_sprites, self.game.player2_group
         pygame.sprite.Sprite.__init__(self, self.groups)
