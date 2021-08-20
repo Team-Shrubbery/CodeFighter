@@ -1,4 +1,4 @@
-# CodeFighter
+# CodeFighter Multiplayer Game
 
 ## Authors
 
