@@ -1,5 +1,7 @@
 # CodeFighter Multiplayer Game
 
+![CodeFighter Gif](./img/codeFighter.gif)
+
 ## Authors
 
 Davee Sok | [LinkedIn](https://www.linkedin.com/in/davee-sok/) | [GitHub](https://github.com/daveeS987)
