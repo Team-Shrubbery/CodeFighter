@@ -45,6 +45,7 @@ CodeFighter is a "best 2-out-of-3" style fighting game where opponents will batt
 
 - Pygame
 - Python Socket IO Client
+- Poetry
 - Pytest
 
 ---
