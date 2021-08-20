@@ -1,6 +1,6 @@
-# CodeFighter
+# CodeFighter Multiplayer Game
 
-*Authors*:
+## Authors
 
 Davee Sok | [LinkedIn](https://www.linkedin.com/in/davee-sok/) | [GitHub](https://github.com/daveeS987)
 
@@ -11,6 +11,15 @@ Kassie Bradshaw | [LinkedIn](https://www.linkedin.com/in/kassie-bradshaw-2021/) 
 Michael Ryan | [LinkedIn](https://www.linkedin.com/in/michaelanthonyryan/) | [GitHub](https://github.com/Michaelryan228)
 
 Prabin Singh | [GitHub](https://github.com/prabin544)
+
+---
+
+## Links
+
+- [Back End Server Repo](https://github.com/Team-Shrubbery/CodeFighter-Server)
+- [Server URL](https://codefighter-server.herokuapp.com/)
+
+---
 
 ## Project Organization
 
@@ -26,39 +35,53 @@ CodeFighter is a "best 2-out-of-3" style fighting game where opponents will batt
 
 ## Features
 
+- Two players
+- Can connect to an online server
+- Communication is handled through python socketio.
+
+---
+
+## Tools & Dependencies
+
+- Pygame
+- Python Socket IO Client
+- Pytest
+
 ---
 
 ## Wireframes
 
-![Code Fighter Wireframe](CodeFighterWireframe.png)
+![Code Fighter Wireframe](./Notes/CodeFighterWireframe.png)
 
 ---
 
 ## Domain Modeling
 
-![Code Fighter Domain Model](CodeFighterDomainModel.png)
-
-
----
-
-## Credits
-
-[Pygame Fighter Tutorial](https://coderslegacy.com/python/pygame-rpg-game-tutorial/)
-
-[Character Sprite Sheets](http://maximoff.alreadyread.net/SpriteSheets/)
-
-[Program to find spritesheets](https://getspritexy.netlify.app/)
-
-[Pygame RPG Tutorial Code](https://www.youtube.com/channel/UChB6no22fVJ-6dGNTfbb05w)
-
-[Sockets](https://www.techwithtim.net/tutorials/python-online-game-tutorial/)
+![Code Fighter Domain Model](./Notes/CodeFighterDomainModel.png)
 
 ---
 
-## Keyboard
+## Getting Started
+
+- Clone down this repo
+- Install dependencies
+- Cd into Game
+- In command line run: `python main.py`
+
+---
+
+## How to Play
 
 - Left and Right arrow keys to move
 - Spacebar to jump
 - Return to attack
 
 ---
+
+## Credits
+
+- [Pygame Fighter Tutorial](https://coderslegacy.com/python/pygame-rpg-game-tutorial/)
+- [Character Sprite Sheets](http://maximoff.alreadyread.net/SpriteSheets/)
+- [Program to find spritesheets](https://getspritexy.netlify.app/)
+- [Pygame RPG Tutorial Code](https://www.youtube.com/channel/UChB6no22fVJ-6dGNTfbb05w)
+- [Sockets](https://www.techwithtim.net/tutorials/python-online-game-tutorial/)
