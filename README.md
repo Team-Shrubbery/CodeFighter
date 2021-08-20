@@ -1,5 +1,7 @@
 # CodeFighter Multiplayer Game
 
+![CodeFighter Gif](./img/codeFighter.gif)
+
 ## Authors
 
 Davee Sok | [LinkedIn](https://www.linkedin.com/in/davee-sok/) | [GitHub](https://github.com/daveeS987)
@@ -45,6 +47,7 @@ CodeFighter is a "best 2-out-of-3" style fighting game where opponents will batt
 
 - Pygame
 - Python Socket IO Client
+- Poetry
 - Pytest
 
 ---
